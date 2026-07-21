@@ -1,0 +1,14 @@
+{
+  "name": "Antigravity — Rutinas Terapéuticas",
+  "short_name": "Antigravity",
+  "description": "Programa terapéutico de ejercicio 2 semanas con video y marcadores personalizados",
+  "start_url": "./app-rutinas-v3.html",
+  "display": "standalone",
+  "background_color": "#080d17",
+  "theme_color": "#080d17",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "192x192", "type": "image/png" }
+  ]
+}
