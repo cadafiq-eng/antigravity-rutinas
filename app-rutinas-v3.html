@@ -118,9 +118,10 @@
       background:var(--surface); border:1px solid var(--border);
       border-radius:var(--rL);
       display:flex; align-items:center; gap:12px;
-      transition:all .3s;
+      transition:all .3s; flex-wrap:wrap;
     }
     .timer-bar.hidden { display:none; }
+    .timer-bar.synced { border-color:rgba(16,185,129,.35); }
     .timer-dig {
       font-family:'SF Mono','Fira Code',monospace;
       font-size:26px; font-weight:800; min-width:80px;
@@ -131,10 +132,23 @@
     .timer-dig.low { color:var(--warn); animation:pls 1s ease infinite; }
     .timer-dig.done { color:var(--err); }
     @keyframes pls { 0%,100%{opacity:1} 50%{opacity:.45} }
-    .timer-label { flex:1; }
+    .timer-label { flex:1; min-width:120px; }
     .timer-label strong { display:block; font-size:13px; margin-bottom:2px; }
-    .timer-label span { font-size:12px; color:var(--muted); }
+    .timer-label span { font-size:11px; color:var(--muted); }
     .timer-btns { display:flex; gap:6px; }
+    .timer-progress {
+      width:100%; height:3px; background:rgba(255,255,255,.06);
+      border-radius:2px; overflow:hidden;
+    }
+    .timer-progress-fill {
+      height:100%; background:var(--ok); border-radius:2px;
+      transition:width .9s linear; width:0%;
+    }
+    .timer-info-note {
+      font-size:11px; color:var(--muted); line-height:1.4;
+      background:rgba(99,102,241,.08); border:1px solid rgba(99,102,241,.15);
+      border-radius:var(--r); padding:6px 9px; margin:0 14px 8px;
+    }
 
     /* ═══════════════════ MAIN ═══════════════════ */
     .app-main { padding-bottom:calc(var(--nav) + 10px); }
@@ -271,6 +285,28 @@
     }
     .ex-steps li::before { content:'› '; opacity:.5; }
     .ex-actions { display:flex; gap:6px; flex-wrap:wrap; }
+
+    /* ═══════════════════ EXERCISE ILLUSTRATIONS ═══════════════════ */
+    .ex-illus {
+      width:100%; border-radius:var(--r); overflow:hidden;
+      margin-bottom:9px; background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+    }
+    .ex-illus-img {
+      width:100%; display:block; border-radius:var(--r);
+      object-fit:contain; max-height:200px;
+    }
+    /* SVG inline illustrations */
+    .ex-illus-svg {
+      width:100%; padding:12px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .ex-illus-svg svg { width:100%; max-height:160px; }
+    /* Illustration caption */
+    .ex-illus-cap {
+      font-size:10px; color:var(--muted); text-align:center;
+      padding:4px 8px 8px; font-style:italic;
+    }
 
     /* ═══════════════════ BUTTONS ═══════════════════ */
     .btn {
@@ -565,15 +601,21 @@
   </header>
 
   <!-- ═══ TIMER BAR ═══ -->
+  <p class="timer-info-note" id="timerNote" style="display:none">
+    ⏱ <strong>Timer sincronizado:</strong> Se inicia automáticamente al reproducir un fragmento de video. También puedes usarlo de forma independiente tocando ▶ en cualquier ejercicio.
+  </p>
   <div class="timer-bar hidden" id="timerBar">
     <div class="timer-dig" id="timerDig">00:00</div>
     <div class="timer-label">
       <strong id="timerLabel">Timer</strong>
-      <span id="timerSublabel">Configura un tiempo</span>
+      <span id="timerSublabel">Toca ▶ en un ejercicio para iniciar</span>
     </div>
     <div class="timer-btns">
       <button class="btn btn-sec btn-sm" id="timerStartBtn">▶ Iniciar</button>
       <button class="btn btn-ghost btn-sm" id="timerResetBtn">↺</button>
+    </div>
+    <div class="timer-progress" style="flex-basis:100%">
+      <div class="timer-progress-fill" id="timerFill"></div>
     </div>
   </div>
 
@@ -788,7 +830,7 @@
 const VIDEOS = {
   cuello:       { title:'Dolor de Cuello',              file:'Videos/Dolor_cuello.mp4',                                    drive:'https://drive.google.com/file/d/1qc8xsK0DOIXinAUFiT-RqagrYIEUY5B6/view', area:'cuello' },
   manos:        { title:'Ejercicios de Manos',           file:'Videos/Ejercicios_manos.mp4',                               drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
-  brazos:       { title:'Movilización Nerviosa Brazos',  file:'Videos/Movilizacion sistema nervioso de los brazos.mp4',    drive:'https://drive.google.com/file/d/17fnL0oQNnMZxRCLFK1mvG1IiSzp-jSj1/view', area:'manos' },
+  brazos:       { title:'Ejercicios de Manos y Muñecas',  file:'Videos/Ejercicios_manos.mp4',                              drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
   neuroPiernas: { title:'Neurodinámicos Piernas',        file:'Videos/Ejercicios_Neurodinamicos_piernas.mp4',              drive:'https://drive.google.com/file/d/1tp--fskOA7-XpCYNYZmAOiJieT2zyl_Q/view', area:'piernas' },
   circulacion:  { title:'Circulación Pies y Piernas',    file:'Videos/Circulación_pies_ piernas.mp4',                     drive:'https://drive.google.com/file/d/1EJSt9lMR5q2qiiFVKNfMmG759UEF08mp/view', area:'piernas' },
   fuerzaPiernas:{ title:'Recuperar Fuerza Piernas',      file:'Videos/Recuperar_fuerza_piernas.mp4',                      drive:'https://drive.google.com/file/d/1mkdPSRpaC5ZAK1xByonIQHx_pq_kalei/view',area:'piernas' },
@@ -1253,11 +1295,271 @@ function renderPhaseSection(day, ph) {
   </div>`;
 }
 
+/* Map exercise IDs to illustration type */
+const ILLUS_MAP = {
+  // suelo / fortalecimiento
+  'a1-pelv':'pelv','a1-brid':'bridge','a3-elev':'elev','a3-libro':'libro',
+  'b2-pelv':'pelv','b2-libro':'libro','b5-lumb':'libro',
+  // estiramientos
+  'a1-cobr':'cobra','a1-glut':'glut','a2-wrist':'wrist','a2-neck':'neck',
+  'a3-str':'glut','a4-deep':'cobra','a5-post':'glut',
+  'b1-str':'glut','b2-str':'cobra','b3-str':'glut','b4-glob':'neck','b5-fin':'glut',
+  // movilidad/cadera
+  'b1-cad':'cadera','b1-cerv':'cerv','b3-mob':'squat','b4-cerv':'cerv',
+  'b4-glob':'neck',
+  // calentamiento
+  'a1-w':'walk','a2-w':'walk','a3-w':'walk','a4-w':'walk','a5-w':'walk',
+  'b1-w':'walk','b2-w':'walk','b3-w':'walk','b4-w':'walk','b5-w':'walk'
+};
+
+const SVG_ILLUS = {
+  walk: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(245,158,11,.06)"/>
+    <!-- Walking figure -->
+    <circle cx="80" cy="28" r="10" fill="none" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="80" y1="38" x2="80" y2="72" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="80" y1="48" x2="65" y2="60" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="80" y1="48" x2="95" y2="55" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="80" y1="72" x2="68" y2="92" stroke="#f59e0b" stroke-width="2"/>
+    <line x1="80" y1="72" x2="92" y2="90" stroke="#f59e0b" stroke-width="2"/>
+    <!-- Heart rate icon -->
+    <path d="M150 55 L158 55 L162 45 L166 65 L170 55 L178 55" fill="none" stroke="#ef4444" stroke-width="2" stroke-linejoin="round"/>
+    <!-- FC label -->
+    <text x="164" y="80" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">50-65% FC máx.</text>
+    <!-- Arrow direction -->
+    <path d="M100 80 L130 80 L125 75 M130 80 L125 85" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="80" y="115" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Ritmo sostenido · hombros relajados</text>
+  </svg>`,
+  pelv: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(99,102,241,.06)"/>
+    <!-- Ground line -->
+    <line x1="20" y1="95" x2="240" y2="95" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Body lying supine -->
+    <circle cx="55" cy="58" r="10" fill="none" stroke="#6366f1" stroke-width="2"/>
+    <line x1="55" y1="68" x2="55" y2="80" stroke="#6366f1" stroke-width="2"/>
+    <line x1="55" y1="73" x2="40" y2="70" stroke="#6366f1" stroke-width="2"/>
+    <line x1="55" y1="73" x2="70" y2="70" stroke="#6366f1" stroke-width="2"/>
+    <!-- Legs bent -->
+    <line x1="55" y1="80" x2="75" y2="93" stroke="#6366f1" stroke-width="2"/>
+    <line x1="75" y1="93" x2="80" y2="75" stroke="#6366f1" stroke-width="2"/>
+    <line x1="55" y1="80" x2="65" y2="93" stroke="#6366f1" stroke-width="2"/>
+    <line x1="65" y1="93" x2="70" y2="75" stroke="#6366f1" stroke-width="2"/>
+    <!-- Arrow pressing low back down -->
+    <path d="M120 50 L120 65" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr)"/>
+    <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="130" y="48" font-size="9" fill="#f59e0b" font-family="Inter,sans-serif">Aplanar lumbar</text>
+    <text x="130" y="60" font-size="8" fill="#7b8db0" font-family="Inter,sans-serif">sostener 3 seg</text>
+    <text x="130" y="115" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Báscula Pélvica — 10 reps × 3 series</text>
+  </svg>`,
+  bridge: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(99,102,241,.06)"/>
+    <line x1="20" y1="108" x2="240" y2="108" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Head on ground -->
+    <circle cx="45" cy="90" r="9" fill="none" stroke="#6366f1" stroke-width="2"/>
+    <!-- Torso lifted -->
+    <line x1="45" y1="99" x2="75" y2="78" stroke="#6366f1" stroke-width="2"/>
+    <line x1="75" y1="78" x2="115" y2="82" stroke="#6366f1" stroke-width="2"/>
+    <!-- Legs to ground -->
+    <line x1="115" y1="82" x2="130" y2="107" stroke="#6366f1" stroke-width="2"/>
+    <line x1="75" y1="78" x2="95" y2="107" stroke="#6366f1" stroke-width="2"/>
+    <!-- Arms at sides -->
+    <line x1="55" y1="88" x2="35" y2="105" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="65" y1="85" x2="80" y2="105" stroke="#6366f1" stroke-width="1.5"/>
+    <!-- Arrow up -->
+    <path d="M90 70 L90 55" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr2)"/>
+    <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,6 L3,0 L6,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="100" y="55" font-size="9" fill="#f59e0b" font-family="Inter,sans-serif">Elevar cadera</text>
+    <text x="100" y="67" font-size="8" fill="#7b8db0" font-family="Inter,sans-serif">contraer glúteos</text>
+    <text x="130" y="125" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Puente de Glúteos — 12 reps × 3 series</text>
+  </svg>`,
+  elev: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(99,102,241,.06)"/>
+    <line x1="20" y1="100" x2="240" y2="100" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Head -->
+    <circle cx="45" cy="72" r="9" fill="none" stroke="#6366f1" stroke-width="2"/>
+    <!-- Body horizontal -->
+    <line x1="45" y1="81" x2="170" y2="99" stroke="#6366f1" stroke-width="2"/>
+    <!-- Leg on ground -->
+    <line x1="130" y1="96" x2="175" y2="99" stroke="#6366f1" stroke-width="2.5"/>
+    <!-- Raised leg -->
+    <line x1="120" y1="94" x2="160" y2="68" stroke="#6366f1" stroke-width="2.5"/>
+    <path d="M145 72 L165 62" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2"/>
+    <!-- Arrow up -->
+    <path d="M165 75 L170 58" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr3)"/>
+    <defs><marker id="arr3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,6 L3,0 L6,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="175" y="55" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">45° máx</text>
+    <text x="130" y="120" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Elevación Piernas Alternas — 12 reps × 2 / lado</text>
+  </svg>`,
+  libro: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(236,72,153,.05)"/>
+    <line x1="20" y1="100" x2="240" y2="100" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Head -->
+    <circle cx="55" cy="55" r="9" fill="none" stroke="#ec4899" stroke-width="2"/>
+    <!-- Body sidelying -->
+    <line x1="55" y1="64" x2="55" y2="98" stroke="#ec4899" stroke-width="2"/>
+    <!-- Bottom arm -->
+    <line x1="55" y1="72" x2="35" y2="78" stroke="#ec4899" stroke-width="2"/>
+    <!-- Knees stacked -->
+    <line x1="55" y1="85" x2="80" y2="98" stroke="#ec4899" stroke-width="2"/>
+    <line x1="55" y1="90" x2="75" y2="98" stroke="#ec4899" stroke-width="2"/>
+    <!-- Top arm rotating open -->
+    <line x1="55" y1="72" x2="130" y2="55" stroke="#ec4899" stroke-width="2"/>
+    <!-- Rotation arrow -->
+    <path d="M100 70 Q130 50 155 68" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr4)"/>
+    <defs><marker id="arr4" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="148" y="50" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Rotar abriendo</text>
+    <text x="130" y="120" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">&quot;Libro Abierto&quot; — Torsión torácica — 10 reps / lado</text>
+  </svg>`,
+  cobra: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(6,182,212,.06)"/>
+    <line x1="20" y1="105" x2="240" y2="105" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Head lifted -->
+    <circle cx="170" cy="55" r="9" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Torso arch -->
+    <path d="M170 64 Q150 75 130 80 Q100 85 60 88" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Legs on ground -->
+    <line x1="60" y1="88" x2="55" y2="104" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="80" y1="88" x2="75" y2="104" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Arms pressing -->
+    <line x1="155" y1="75" x2="148" y2="104" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="185" y1="68" x2="192" y2="104" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Arrow up along spine -->
+    <path d="M125 72 L140 58" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2"/>
+    <text x="110" y="55" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Arquear suave</text>
+    <text x="130" y="122" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Cobra — 45 seg / posición, respiración profunda</text>
+  </svg>`,
+  glut: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(6,182,212,.06)"/>
+    <line x1="20" y1="105" x2="240" y2="105" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Body supine -->
+    <circle cx="45" cy="65" r="9" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="45" y1="74" x2="130" y2="100" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Left leg straight -->
+    <line x1="105" y1="97" x2="145" y2="104" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Right leg: knee bent, ankle on left knee (figure-4) -->
+    <line x1="85" y1="92" x2="100" y2="76" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="100" y1="76" x2="120" y2="90" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Hands pulling -->
+    <line x1="45" y1="80" x2="65" y2="90" stroke="#06b6d4" stroke-width="1.5"/>
+    <line x1="65" y1="90" x2="100" y2="80" stroke="#06b6d4" stroke-width="1.5"/>
+    <!-- Stretch arrow -->
+    <path d="M130 70 Q145 55 155 68" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr5)"/>
+    <defs><marker id="arr5" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="158" y="65" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Tensión</text>
+    <text x="130" y="122" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Estiramiento Glúteo (Figura 4) — 30 seg / lado</text>
+  </svg>`,
+  neck: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(6,182,212,.06)"/>
+    <!-- Seated figure -->
+    <circle cx="90" cy="38" r="10" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    <!-- Body seated -->
+    <line x1="90" y1="48" x2="90" y2="80" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="90" y1="80" x2="75" y2="95" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="90" y1="80" x2="105" y2="95" stroke="#06b6d4" stroke-width="2"/>
+    <line x1="90" y1="60" x2="75" y2="68" stroke="#06b6d4" stroke-width="1.5"/>
+    <!-- Head tilt -->
+    <circle cx="160" cy="34" r="10" fill="none" stroke="#06b6d4" stroke-width="2" opacity=".5"/>
+    <path d="M152 38 Q145 50 148 58" fill="none" stroke="#f59e0b" stroke-width="2"/>
+    <text x="168" y="52" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Inclinar</text>
+    <line x1="160" y1="44" x2="175" y2="65" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="130" y="120" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Estiramiento cuello y hombros — 30 seg / lado</text>
+  </svg>`,
+  wrist: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(139,92,246,.06)"/>
+    <!-- Arm with wrist extended -->
+    <line x1="60" y1="80" x2="110" y2="80" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+    <line x1="110" y1="80" x2="110" y2="45" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Hand -->
+    <ellipse cx="110" cy="42" rx="8" ry="5" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+    <line x1="103" y1="42" x2="96" y2="38" stroke="#8b5cf6" stroke-width="1.5"/>
+    <line x1="103" y1="44" x2="97" y2="48" stroke="#8b5cf6" stroke-width="1.5"/>
+    <!-- Arrow for stretch direction -->
+    <path d="M120 38 L135 28" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr6)"/>
+    <defs><marker id="arr6" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="138" y="28" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Extender</text>
+    <!-- Second position -->
+    <line x1="175" y1="80" x2="225" y2="80" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+    <line x1="175" y1="80" x2="175" y2="112" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="175" cy="115" rx="8" ry="5" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+    <path d="M163 112 L150 122" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr7)"/>
+    <defs><marker id="arr7" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="130" y="45" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Muñeca arriba / abajo</text>
+    <text x="130" y="125" font-size="8" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Estiramientos de Muñecas — 30-45 seg / posición / lado</text>
+  </svg>`,
+  cadera: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(16,185,129,.06)"/>
+    <line x1="20" y1="105" x2="240" y2="105" stroke="#3d4e6a" stroke-width="1"/>
+    <circle cx="55" cy="62" r="9" fill="none" stroke="#10b981" stroke-width="2"/>
+    <line x1="55" y1="71" x2="130" y2="100" stroke="#10b981" stroke-width="2"/>
+    <line x1="85" y1="90" x2="100" y2="70" stroke="#10b981" stroke-width="2"/>
+    <line x1="105" y1="97" x2="130" y2="104" stroke="#10b981" stroke-width="2"/>
+    <!-- Circular motion arrow -->
+    <path d="M100 68 Q118 52 132 68 Q118 84 100 68 Z" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 2"/>
+    <path d="M101 84 L95 90" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr8)"/>
+    <defs><marker id="arr8" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="130" y="122" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Movilidad de Cadera — círculos en supino — 8 reps / lado</text>
+  </svg>`,
+  squat: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(5,150,105,.06)"/>
+    <line x1="20" y1="112" x2="240" y2="112" stroke="#3d4e6a" stroke-width="1"/>
+    <!-- Squat figure -->
+    <circle cx="130" cy="38" r="10" fill="none" stroke="#059669" stroke-width="2"/>
+    <!-- Torso -->
+    <line x1="130" y1="48" x2="125" y2="80" stroke="#059669" stroke-width="2"/>
+    <!-- Arms forward -->
+    <line x1="128" y1="55" x2="108" y2="62" stroke="#059669" stroke-width="2"/>
+    <!-- Thighs -->
+    <line x1="125" y1="80" x2="105" y2="100" stroke="#059669" stroke-width="2"/>
+    <line x1="125" y1="80" x2="145" y2="100" stroke="#059669" stroke-width="2"/>
+    <!-- Shins -->
+    <line x1="105" y1="100" x2="100" y2="112" stroke="#059669" stroke-width="2"/>
+    <line x1="145" y1="100" x2="150" y2="112" stroke="#059669" stroke-width="2"/>
+    <!-- Knee alignment arrows -->
+    <line x1="95" y1="100" x2="100" y2="112" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <line x1="155" y1="100" x2="150" y2="112" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="83" y="95" font-size="7" fill="#f59e0b" font-family="Inter,sans-serif">← rodilla</text>
+    <text x="157" y="95" font-size="7" fill="#f59e0b" font-family="Inter,sans-serif">rodilla →</text>
+    <!-- Down arrow -->
+    <path d="M170 60 L170 80" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr9)"/>
+    <defs><marker id="arr9" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <text x="130" y="126" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Sentadilla de Movilidad — peso corporal — 10 reps</text>
+  </svg>`,
+  cerv: `<svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="260" height="130" rx="8" fill="rgba(99,102,241,.06)"/>
+    <!-- Seated figure -->
+    <circle cx="90" cy="40" r="10" fill="none" stroke="#6366f1" stroke-width="2"/>
+    <line x1="90" y1="50" x2="90" y2="85" stroke="#6366f1" stroke-width="2"/>
+    <line x1="90" y1="85" x2="75" y2="100" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="90" y1="85" x2="105" y2="100" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="90" y1="62" x2="73" y2="70" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="90" y1="62" x2="107" y2="70" stroke="#6366f1" stroke-width="1.5"/>
+    <!-- Rotation arc -->
+    <path d="M80 38 Q90 25 100 38" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3 2"/>
+    <path d="M100 38 L106 32" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr10)"/>
+    <defs><marker id="arr10" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>
+    <!-- Tilt arc -->
+    <path d="M82 30 Q70 18 68 28" fill="none" stroke="#06b6d4" stroke-width="1.5"/>
+    <text x="165" y="45" font-size="8" fill="#f59e0b" font-family="Inter,sans-serif">Rotación</text>
+    <text x="165" y="58" font-size="8" fill="#06b6d4" font-family="Inter,sans-serif">Inclinación</text>
+    <text x="165" y="72" font-size="8" fill="#7b8db0" font-family="Inter,sans-serif">5 reps / lado</text>
+    <text x="130" y="122" font-size="9" fill="#7b8db0" text-anchor="middle" font-family="Inter,sans-serif">Movilización Cervical — lento, sin rebotes</text>
+  </svg>`
+};
+
+function getIllustration(ex) {
+  const type = ILLUS_MAP[ex.id];
+  if (!type) return '';
+  const svg = SVG_ILLUS[type];
+  if (!svg) return '';
+  return `<div class="ex-illus"><div class="ex-illus-svg">${svg}</div></div>`;
+}
+
 function renderExItem(e, dayNum, phNum) {
   const mk = getMarker(e.id);
   const s = mk ? mk.start : e.start;
   const end = mk ? mk.end : e.end;
   const hasVideo = !!e.video;
+  const illus = !hasVideo ? getIllustration(e) : '';
   return `<div class="ex-item" id="exi-${e.id}">
     <div class="ex-top">
       <div class="ex-info">
@@ -1269,10 +1571,11 @@ function renderExItem(e, dayNum, phNum) {
       <span class="ex-tag ${e.type}">${e.type === 'therapy' ? 'Terapéutico' : e.type === 'warm' ? 'Calentamiento' : 'Normal'}</span>
       ${hasVideo ? `<span class="ex-tag therapy">📹 ${fmtTime(s)}-${fmtTime(end)}</span>` : ''}
     </div>
+    ${illus}
     <ul class="ex-steps">${e.steps.map(s => `<li>${s}</li>`).join('')}</ul>
     <div class="ex-actions">
       ${hasVideo ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end})">▶ Ver fragmento</button>` : ''}
-      ${e.end > e.start ? `<button class="btn btn-sec btn-sm" onclick="startTimer(${e.end - e.start},'${e.title}')">⏱ ${fmtTime(e.end - e.start)}</button>` : ''}
+      ${e.end > e.start ? `<button class="btn btn-sec btn-sm" onclick="startTimer(${e.end - e.start},'${e.title}',true)">⏱ ${fmtTime(e.end - e.start)}</button>` : ''}
     </div>
   </div>`;
 }
@@ -1368,7 +1671,6 @@ const vidEmpty = document.getElementById('vidEmpty');
 function openVideo(exId, videoKey, defaultStart, defaultEnd) {
   const vid = VIDEOS[videoKey];
   if (!vid) return;
-  // Find title from plan or library
   let exTitle = exId;
   for (const d of PLAN) { for (const p of d.phases) { for (const e of p.exercises) { if (e.id === exId) { exTitle = e.title; } } } }
   const libEx = LIBRARY_EXERCISES.find(e => e.id === exId);
@@ -1385,6 +1687,9 @@ function openVideo(exId, videoKey, defaultStart, defaultEnd) {
 
   const videoSource = db('videoSource', 'drive');
   if (videoSource === 'drive') {
+    // Auto-start timer even in Drive mode
+    const dur = mk.end - mk.start;
+    if (dur > 0) startTimer(dur, exTitle, true);
     window.open(vid.drive, '_blank');
     return;
   }
@@ -1395,10 +1700,18 @@ function openVideo(exId, videoKey, defaultStart, defaultEnd) {
   if (player.src !== vid.file && !player.src.endsWith(encodeURI(vid.file))) {
     player.src = vid.file;
     player.load();
-    player.onloadedmetadata = () => { player.currentTime = mk.start; player.play().catch(() => {}); };
+    player.onloadedmetadata = () => {
+      player.currentTime = mk.start;
+      player.play().catch(() => {});
+      // Sync timer with video segment
+      const dur = mk.end - mk.start;
+      if (dur > 0) startTimer(dur, exTitle, true);
+    };
   } else {
     player.currentTime = mk.start;
     player.play().catch(() => {});
+    const dur = mk.end - mk.start;
+    if (dur > 0) startTimer(dur, exTitle, true);
   }
 
   document.getElementById('videoOv').classList.add('open');
@@ -1467,16 +1780,41 @@ document.getElementById('mkReset').addEventListener('click', () => {
 /* ═══════════════════════════════════════════════════
    TIMER
 ═══════════════════════════════════════════════════ */
-function startTimer(sec, label) {
-  ST.timerSec = Math.max(0, Math.round(sec));
-  if (label) {
-    document.getElementById('timerLabel').textContent = label;
-    document.getElementById('timerSublabel').textContent = `Duración: ${fmtTime(ST.timerSec)}`;
-  }
+ST.timerTotal = 0; // total seconds for progress bar
+
+function startTimer(sec, label, autoStart) {
   clearInterval(ST.timerInterval);
   ST.timerRunning = false;
+  ST.timerSec = Math.max(0, Math.round(sec));
+  ST.timerTotal = ST.timerSec;
+  if (label) {
+    document.getElementById('timerLabel').textContent = label;
+    document.getElementById('timerSublabel').textContent = `Duración: ${fmtTime(ST.timerSec)}${autoStart ? ' — sincronizado ▶' : ''}`;
+  }
   updateTimerDisplay();
   showTimerBar(true);
+  // Show info note once
+  const note = document.getElementById('timerNote');
+  if (note) note.style.display = '';
+  if (autoStart) triggerTimerStart();
+}
+
+function triggerTimerStart() {
+  if (ST.timerRunning || ST.timerSec <= 0) return;
+  ST.timerRunning = true;
+  document.getElementById('timerBar').classList.add('synced');
+  document.getElementById('timerStartBtn').textContent = '⏸ Pausar';
+  ST.timerInterval = setInterval(() => {
+    ST.timerSec--;
+    updateTimerDisplay();
+    if (ST.timerSec <= 0) {
+      clearInterval(ST.timerInterval);
+      ST.timerRunning = false;
+      document.getElementById('timerBar').classList.remove('synced');
+      document.getElementById('timerStartBtn').textContent = '▶ Iniciar';
+      if (navigator.vibrate) navigator.vibrate([200, 80, 200, 80, 200]);
+    }
+  }, 1000);
 }
 
 function showTimerBar(show) {
@@ -1489,35 +1827,34 @@ function updateTimerDisplay() {
   const el = document.getElementById('timerDig');
   el.textContent = fmtTime(ST.timerSec);
   el.className = 'timer-dig' + (ST.timerRunning ? (ST.timerSec <= 10 ? ' low' : ' run') : (ST.timerSec === 0 ? ' done' : ''));
-  document.getElementById('timerStartBtn').textContent = ST.timerRunning ? '⏸ Pausar' : (ST.timerSec > 0 ? '▶ Iniciar' : '▶ Iniciar');
+  document.getElementById('timerStartBtn').textContent = ST.timerRunning ? '⏸ Pausar' : '▶ Iniciar';
+  // Update progress bar
+  const fill = document.getElementById('timerFill');
+  if (fill && ST.timerTotal > 0) {
+    const pct = ((ST.timerTotal - ST.timerSec) / ST.timerTotal * 100).toFixed(1);
+    fill.style.width = pct + '%';
+    fill.style.background = ST.timerSec <= 10 ? 'var(--warn)' : 'var(--ok)';
+  }
 }
 
 document.getElementById('timerStartBtn').addEventListener('click', () => {
   if (ST.timerRunning) {
     clearInterval(ST.timerInterval);
     ST.timerRunning = false;
+    document.getElementById('timerBar').classList.remove('synced');
     document.getElementById('timerStartBtn').textContent = '▶ Continuar';
     return;
   }
-  if (ST.timerSec <= 0) ST.timerSec = 60;
-  ST.timerRunning = true;
-  document.getElementById('timerStartBtn').textContent = '⏸ Pausar';
-  ST.timerInterval = setInterval(() => {
-    ST.timerSec--;
-    updateTimerDisplay();
-    if (ST.timerSec <= 0) {
-      clearInterval(ST.timerInterval);
-      ST.timerRunning = false;
-      document.getElementById('timerStartBtn').textContent = '▶ Iniciar';
-      if (navigator.vibrate) navigator.vibrate([200, 80, 200, 80, 200]);
-    }
-  }, 1000);
+  if (ST.timerSec <= 0) { ST.timerSec = 60; ST.timerTotal = 60; }
+  triggerTimerStart();
 });
 
 document.getElementById('timerResetBtn').addEventListener('click', () => {
   clearInterval(ST.timerInterval);
   ST.timerRunning = false;
   ST.timerSec = 0;
+  ST.timerTotal = 0;
+  document.getElementById('timerBar').classList.remove('synced');
   updateTimerDisplay();
 });
 
