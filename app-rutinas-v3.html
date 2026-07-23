@@ -832,11 +832,13 @@ const VIDEOS = {
   manos:        { title:'Ejercicios de Manos',           file:'Videos/Ejercicios_manos.mp4',                               drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
   brazos:       { title:'Ejercicios de Manos y Muñecas',  file:'Videos/Ejercicios_manos.mp4',                              drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
   neuroPiernas: { title:'Neurodinámicos Piernas',        file:'Videos/Ejercicios_Neurodinamicos_piernas.mp4',              drive:'https://drive.google.com/file/d/1tp--fskOA7-XpCYNYZmAOiJieT2zyl_Q/view', area:'piernas' },
-  circulacion:  { title:'Circulación Pies y Piernas',    file:'Videos/Circulación_pies_ piernas.mp4',                     drive:'https://drive.google.com/file/d/1EJSt9lMR5q2qiiFVKNfMmG759UEF08mp/view', area:'piernas' },
+  circulacion:  { title:'Circulación Pies y Piernas',    file:'Videos/Cirulación_pies_ piernas.mp4',                     drive:'https://drive.google.com/file/d/1EJSt9lMR5q2qiiFVKNfMmG759UEF08mp/view', area:'piernas' },
   fuerzaPiernas:{ title:'Recuperar Fuerza Piernas',      file:'Videos/Recuperar_fuerza_piernas.mp4',                      drive:'https://drive.google.com/file/d/1mkdPSRpaC5ZAK1xByonIQHx_pq_kalei/view',area:'piernas' },
   masaPiernas:  { title:'Masa Muscular Piernas',          file:'Videos/Masa_nuscular_piernas.mp4',                         drive:'https://drive.google.com/file/d/1asS9_k6TWWHyVRKutzPyaMguBQXOm5z2/view',area:'piernas' },
   gluteos:      { title:'Glúteos, Abdomen y Piernas',    file:'Videos/Gluteos_abdome_piernas.mp4',                        drive:'https://drive.google.com/file/d/1Duf3d_DrBY-KD0IbZwabTwkBcrrUAaIW/view',area:'core' },
-  pesas:        { title:'Cuerpo Completo con Pesas',     file:'Videos/Todo_el_cuerpo_pesas.mp4',                          drive:'https://drive.google.com/file/d/17yhycwMZjCtLlr3pGfemM28PCIlXwJP6/view',area:'full' }
+  pesas:        { title:'Cuerpo Completo con Pesas',     file:'Videos/Todo_el_cuerpo_pesas.mp4',                          drive:'https://drive.google.com/file/d/17yhycwMZjCtLlr3pGfemM28PCIlXwJP6/view',area:'full' },
+  libroAbierto: { title:'Movilidad Columna Dorsal - Libro Abierto', file:'Videos/MOVILIDAD  COLUMNA DORSAL_ LIBRO ABIERTO.mp4', drive:'PENDIENTE_DRIVE_ID', area:'columna' },
+  elevPiernas:  { title:'Elevaciones de Piernas en 4 Tiempos',      file:'Videos/Elevaciones piernas en 4 tiempos.mp4',        drive:'PENDIENTE_DRIVE_ID', area:'piernas' }
 };
 
 // Helper: exercise definition
@@ -896,8 +898,8 @@ const PLAN = [
           ex('a3-braz','Neurodinámico de brazos','10 reps × 2 / lado','therapy',['Brazo a 90°, extender muñeca al mismo tiempo que el codo','Regresar a posición inicial lentamente','Sin hormigueo sostenido'],'brazos',0,180)]},
       { num:3, title:'Rotaciones y Estabilización Lumbar', duration:15, icon:'🔄', note:'El "libro abierto" activa movilidad torácica y cadena posterior.',
         exercises:[
-          ex('a3-libro','"Libro abierto" — Torsión torácica','10 reps × 2 / lado','therapy',['Decúbito lateral, rodillas a 90°','Abrir brazo superior hacia el suelo opuesto','Mantener rodillas juntas'],null,0,0),
-          ex('a3-elev','Elevación de piernas alternas','12 reps × 2 / lado','therapy',['Espalda plana en el suelo','Elevar pierna estirada 45° máx','Activar abdomen antes de elevar'],null,0,0)]},
+          ex('a3-libro','"Libro abierto" — Torsión torácica','10 reps × 2 / lado','therapy',['Decúbito lateral, rodillas a 90°','Abrir brazo superior hacia el suelo opuesto','Mantener rodillas juntas'],'libroAbierto',0,0),
+          ex('a3-elev','Elevación de piernas alternas','12 reps × 2 / lado','therapy',['Espalda plana en el suelo','Elevar pierna estirada 45° máx','Activar abdomen antes de elevar'],'elevPiernas',0,0)]},
       { num:4, title:'Neurodinámico de Piernas', duration:10, icon:'🦵', note:'No buscar dolor, solo sensación de tensión neural suave.',
         exercises:[ex('a3-npi','Neurodinámico de piernas','10-12 reps / lado','therapy',['Decúbito supino, cadera 90°','Extender rodilla + dorsiflexión de tobillo','Mantener 2 seg, regresar lento'],'neuroPiernas',0,240)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Estiramientos globales post-trabajo neural.',
@@ -955,7 +957,7 @@ const PLAN = [
         exercises:[ex('b2-w','Caminata con activación de glúteos','20 min','warm',['Apretar glúteos cada 5 pasos','Mantener abdomen activado','Postura erguida'],null,0,0)]},
       { num:2, title:'Movilidad de Cadera y Lumbar', duration:10, icon:'🔄', note:'Preparar la cadera para el trabajo de glúteos.',
         exercises:[
-          ex('b2-libro','"Libro abierto" — Torsión torácica','8 reps × 2 / lado','therapy',['Decúbito lateral, rodillas a 90°','Girar tronco superior, cadera fija','Mantener 2 seg al llegar al rango'],null,0,0),
+          ex('b2-libro','"Libro abierto" — Torsión torácica','8 reps × 2 / lado','therapy',['Decúbito lateral, rodillas a 90°','Girar tronco superior, cadera fija','Mantener 2 seg al llegar al rango'],'libroAbierto',0,0),
           ex('b2-pelv','Báscula pélvica + activación','10 reps','therapy',['Activar core antes del movimiento','Respirar al subir y bajar','Preparar para la sesión principal'],null,0,0)]},
       { num:3, title:'Glúteos, Abdomen y Piernas — Principal', duration:15, icon:'🔥', note:'Sesión principal. Mantener activación abdominal constante.',
         exercises:[ex('b2-glut','Rutina completa glúteos + abdomen','Primera parte del video','normal',['Activar abdomen antes de cada ejercicio','Control de rodillas (no hacia adentro)','Subir dificultad gradualmente'],'gluteos',0,600)]},
@@ -1002,7 +1004,7 @@ const PLAN = [
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Último viernes del ciclo. Calentamiento completo.',
         exercises:[ex('b5-w','Bicicleta o caminata activa','20 min con progresión','warm',['Progresión 50→65% FC máx','Últimos 5 min a ritmo sostenido','Preparación mental para el cierre'],null,0,0)]},
       { num:2, title:'Movilidad Lumbar y Cadera', duration:10, icon:'🔄', note:'Preparar el complejo lumbo-pélvico para el trabajo final.',
-        exercises:[ex('b5-lumb','Movilización lumbar y cadera','8 reps/movimiento','therapy',['Báscula pélvica × 10','"Libro abierto" × 8/lado','Círculos de cadera en cuadrupedia'],null,0,0)]},
+        exercises:[ex('b5-lumb','Movilización lumbar y cadera','8 reps/movimiento','therapy',['Báscula pélvica × 10','"Libro abierto" × 8/lado','Círculos de cadera en cuadrupedia'],'libroAbierto',0,0)]},
       { num:3, title:'Recuperar Fuerza Piernas — Sesión Completa', duration:15, icon:'💪', note:'Sesión de fuerza más completa del ciclo.',
         exercises:[ex('b5-fuer','Rutina completa fuerza piernas','3 series completas','therapy',['Progresión desde semana anterior','Enfocarse en control excéntrico','Completar todas las series'],'fuerzaPiernas',0,600)]},
       { num:4, title:'Glúteos — Integración Final', duration:10, icon:'🍑', note:'Trabajo complementario de glúteos para cerrar el ciclo.',
@@ -1298,8 +1300,8 @@ function renderPhaseSection(day, ph) {
 /* Map exercise IDs to illustration type */
 const ILLUS_MAP = {
   // suelo / fortalecimiento
-  'a1-pelv':'pelv','a1-brid':'bridge','a3-elev':'elev','a3-libro':'libro',
-  'b2-pelv':'pelv','b2-libro':'libro','b5-lumb':'libro',
+  'a1-pelv':'pelv','a1-brid':'bridge',
+  'b2-pelv':'pelv','b5-lumb':'libro',
   // estiramientos
   'a1-cobr':'cobra','a1-glut':'glut','a2-wrist':'wrist','a2-neck':'neck',
   'a3-str':'glut','a4-deep':'cobra','a5-post':'glut',
