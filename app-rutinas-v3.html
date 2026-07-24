@@ -712,6 +712,12 @@
           </select>
         </div>
 
+        <div class="set-card">
+          <div class="set-label">Guía visual (infografía)</div>
+          <div class="set-desc">Resumen ilustrado de las 5 fases del programa, útil como referencia para las subrutinas sin video.</div>
+          <a href="https://drive.google.com/file/d/1jLEhtq0ZjOnOaBkipQ30BQ7HeWf_jUOL/view" target="_blank" rel="noopener" class="btn btn-sec btn-sm">🖼 Ver infografía completa</a>
+        </div>
+
         <div class="expert-box">
           <h3>📚 Protocolo de Días Perdidos (según expertos)</h3>
           <div class="expert-rule">
@@ -830,7 +836,7 @@
 const VIDEOS = {
   cuello:       { title:'Dolor de Cuello',              file:'Videos/Dolor_cuello.mp4',                                    drive:'https://drive.google.com/file/d/1qc8xsK0DOIXinAUFiT-RqagrYIEUY5B6/view', area:'cuello' },
   manos:        { title:'Ejercicios de Manos',           file:'Videos/Ejercicios_manos.mp4',                               drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
-  brazos:       { title:'Ejercicios de Manos y Muñecas',  file:'Videos/Ejercicios_manos.mp4',                              drive:'https://drive.google.com/file/d/1rKhcEaKi-pw8khy4kPyepq6b1FEx3Lg4/view', area:'manos' },
+  brazos:       { title:'Movilización Sistema Nervioso de Brazos', file:'Videos/Movilizacion_sistema_nervioso_brazos.mp4', drive:'https://drive.google.com/file/d/19DgmqwVIm_vbCfiOo6JneNGQFHg6hnz-/view', area:'brazos' },
   neuroPiernas: { title:'Neurodinámicos Piernas',        file:'Videos/Ejercicios_Neurodinamicos_piernas.mp4',              drive:'https://drive.google.com/file/d/1tp--fskOA7-XpCYNYZmAOiJieT2zyl_Q/view', area:'piernas' },
   circulacion:  { title:'Circulación Pies y Piernas',    file:'Videos/Cirulación_pies_ piernas.mp4',                     drive:'https://drive.google.com/file/d/1EJSt9lMR5q2qiiFVKNfMmG759UEF08mp/view', area:'piernas' },
   fuerzaPiernas:{ title:'Recuperar Fuerza Piernas',      file:'Videos/Recuperar_fuerza_piernas.mp4',                      drive:'https://drive.google.com/file/d/1mkdPSRpaC5ZAK1xByonIQHx_pq_kalei/view',area:'piernas' },
@@ -851,29 +857,29 @@ const PLAN = [
   { dayNum:1, week:'A', dayLabel:'Lunes',     title:'Cuello, Hombros y Brazos',        subtitle:'Tren superior — Movilidad y neurodinámico',      icon:'🧠', color:'#6366f1', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Mantén FC entre 50-65% máx. Respira por la nariz si puedes.',
-        exercises:[ex('a1-w','Caminata o bicicleta estática','20 min continuo','warm',['Ritmo moderado sin agitación','Hombros hacia atrás y abajo','Brazos en movimiento natural'],null,0,0)]},
+        exercises:[ex('a1-w','Caminata o bicicleta estática','20 min continuo','warm',['Ritmo moderado sin agitación','Hombros hacia atrás y abajo','Brazos en movimiento natural'],null,0,1200)]},
       { num:2, title:'Movilidad Cuello / Tren Superior', duration:10, icon:'🦴', note:'Movimientos lentos. Detener si hay mareo o dolor irradiado.',
         exercises:[
           ex('a1-cerv','Movilización cervical suave','5 rots/lado × 3 reps','therapy',['Mover sin rebotes','Hombros relajados','Rango cómodo únicamente'],'cuello',30,180),
           ex('a1-wall','Flexiones en pared','10 reps × 2 series','therapy',['Espalda recta','Codos a 45° del tronco','Exhalar al empujar la pared'],'cuello',200,380)]},
       { num:3, title:'Fortalecimiento Lumbar / Glúteos', duration:15, icon:'🔥', note:'Base de estabilidad para todo el cuerpo.',
         exercises:[
-          ex('a1-pelv','Báscula pélvica','10 reps × 3 series','therapy',['Tumbado boca arriba','Aplanar zona lumbar al suelo','Sostener 3 s y soltar'],null,0,0),
-          ex('a1-brid','Puente de glúteos','12 reps × 3 series','therapy',['Pies apoyados, rodillas 90°','Elevar cadera contrayendo glúteos','Bajar lentamente'],null,0,0)]},
+          ex('a1-pelv','Báscula pélvica','10 reps × 3 series','therapy',['Tumbado boca arriba','Aplanar zona lumbar al suelo','Sostener 3 s y soltar'],null,0,180),
+          ex('a1-brid','Puente de glúteos','12 reps × 3 series','therapy',['Pies apoyados, rodillas 90°','Elevar cadera contrayendo glúteos','Bajar lentamente'],null,0,180)]},
       { num:4, title:'Brazos y Manos — Neurodinámico', duration:10, icon:'💪', note:'Si sientes hormigueo, reduce el rango y respira.',
         exercises:[
           ex('a1-braz','Movilización nerviosa de brazos','8-10 reps / lado','therapy',['Movimiento en rango cómodo','Sin hormigueo sostenido','Regresar lento'],'brazos',0,120),
           ex('a1-man','Movilidad de manos y dedos','2 min continuo','therapy',['Abrir y cerrar con control','Mover cada dedo por separado','Circunducción de muñecas'],'manos',0,120)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Respiración profunda. Cada posición 30-45 segundos.',
         exercises:[
-          ex('a1-cobr','Posición cobra y mahometano','45 seg / posición','therapy',['Cobra: manos al suelo, arquear suave','Mahometano: sentarse en talones','Respirar profundo y soltar'],null,0,0),
-          ex('a1-glut','Estiramiento glúteo y muslo','30 seg × 2 / lado','therapy',['Cruzar tobillo sobre rodilla opuesta','Flexionar cadera hacia el pecho','Espalda baja plana'],null,0,0)]}
+          ex('a1-cobr','Posición cobra y mahometano','45 seg / posición','therapy',['Cobra: manos al suelo, arquear suave','Mahometano: sentarse en talones','Respirar profundo y soltar'],null,0,90),
+          ex('a1-glut','Estiramiento glúteo y muslo','30 seg × 2 / lado','therapy',['Cruzar tobillo sobre rodilla opuesta','Flexionar cadera hacia el pecho','Espalda baja plana'],null,0,120)]}
     ]},
 
   { dayNum:2, week:'A', dayLabel:'Martes',    title:'Manos, Muñecas y Movilidad Fina',  subtitle:'Tren superior — Sensibilidad y control motor',    icon:'✋', color:'#8b5cf6', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Ritmo sostenido. Puedes subir un poco vs. lunes.',
-        exercises:[ex('a2-w','Caminata o bicicleta estática','20 min','warm',['Ligero aumento de ritmo vs. lunes','Brazos activos','Hidratación antes y durante'],null,0,0)]},
+        exercises:[ex('a2-w','Caminata o bicicleta estática','20 min','warm',['Ligero aumento de ritmo vs. lunes','Brazos activos','Hidratación antes y durante'],null,0,1200)]},
       { num:2, title:'Movilidad Cervical de Mantenimiento', duration:10, icon:'🦴', note:'Sesión breve de mantenimiento cervical.',
         exercises:[ex('a2-cerv','Movilización cervical suave','5 reps/lado','therapy',['Incluir inclinaciones laterales','Hombros relajados en todo momento','Coordinar con la respiración'],'cuello',30,150)]},
       { num:3, title:'Ejercicios de Manos y Muñecas', duration:15, icon:'✋', note:'Velocidad lenta y controlada. Enfoque en destreza.',
@@ -884,14 +890,14 @@ const PLAN = [
         exercises:[ex('a2-circ','Bomba gemelar y circulación','2-3 min + tobillos','therapy',['Elevar talones varias veces','Circunducción de tobillos','Elevar rodillas alternando'],'circulacion',0,180)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Estirar muñecas y antebrazos específicamente.',
         exercises:[
-          ex('a2-wrist','Estiramientos de muñecas y antebrazos','30-45 seg × 2 / lado','therapy',['Palma hacia afuera, dedos arriba','Palma hacia afuera, dedos abajo','Evitar forzar el rango'],null,0,0),
-          ex('a2-neck','Estiramiento cuello y hombros','30 seg / lado','therapy',['Inclinar oreja al hombro','Mano del lado opuesto presiona suave','Respirar y soltar tensión'],null,0,0)]}
+          ex('a2-wrist','Estiramientos de muñecas y antebrazos','30-45 seg × 2 / lado','therapy',['Palma hacia afuera, dedos arriba','Palma hacia afuera, dedos abajo','Evitar forzar el rango'],null,0,150),
+          ex('a2-neck','Estiramiento cuello y hombros','30 seg / lado','therapy',['Inclinar oreja al hombro','Mano del lado opuesto presiona suave','Respirar y soltar tensión'],null,0,60)]}
     ]},
 
   { dayNum:3, week:'A', dayLabel:'Miércoles', title:'Neurodinámico Completo',             subtitle:'Sistema nervioso periférico — Brazos y piernas', icon:'⚡', color:'#ec4899', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Mantenerse en 50-65% FC máx.',
-        exercises:[ex('a3-w','Caminata o bicicleta estática','20 min','warm',['Ritmo sostenido','Movimiento de brazos fluido','Respiración tranquila'],null,0,0)]},
+        exercises:[ex('a3-w','Caminata o bicicleta estática','20 min','warm',['Ritmo sostenido','Movimiento de brazos fluido','Respiración tranquila'],null,0,1200)]},
       { num:2, title:'Neurodinámico de Brazos', duration:10, icon:'💪', note:'Si sientes dolor eléctrico u hormigueo, reduce el rango inmediatamente.',
         exercises:[
           ex('a3-cerv','Movilización cervical preparatoria','5 reps/lado','therapy',['Calentamiento previo al neurodinámico','Todos los ejes del cuello','Lento y fluido'],'cuello',30,120),
@@ -903,27 +909,27 @@ const PLAN = [
       { num:4, title:'Neurodinámico de Piernas', duration:10, icon:'🦵', note:'No buscar dolor, solo sensación de tensión neural suave.',
         exercises:[ex('a3-npi','Neurodinámico de piernas','10-12 reps / lado','therapy',['Decúbito supino, cadera 90°','Extender rodilla + dorsiflexión de tobillo','Mantener 2 seg, regresar lento'],'neuroPiernas',0,240)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Estiramientos globales post-trabajo neural.',
-        exercises:[ex('a3-str','Estiramiento isquiotibiales y glúteos','45 seg × 2 / lado','therapy',['Posición cobra para columna','Cruzar pierna para glúteo (figura 4)','Respirar profundo en cada postura'],null,0,0)]}
+        exercises:[ex('a3-str','Estiramiento isquiotibiales y glúteos','45 seg × 2 / lado','therapy',['Posición cobra para columna','Cruzar pierna para glúteo (figura 4)','Respirar profundo en cada postura'],null,0,180)]}
     ]},
 
   { dayNum:4, week:'A', dayLabel:'Jueves',    title:'Recuperación Activa y Circulación', subtitle:'Tren superior — Movilidad suave + bomba venosa',  icon:'💧', color:'#06b6d4', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico Suave', duration:20, icon:'🚶', note:'Día de recuperación: mantener ritmo bajo (50% FC máx).',
-        exercises:[ex('a4-w','Caminata suave de recuperación','20 min ritmo bajo','warm',['Ritmo de conversación','No elevar demasiado la FC','Disfrutar el movimiento sin esfuerzo'],null,0,0)]},
+        exercises:[ex('a4-w','Caminata suave de recuperación','20 min ritmo bajo','warm',['Ritmo de conversación','No elevar demasiado la FC','Disfrutar el movimiento sin esfuerzo'],null,0,1200)]},
       { num:2, title:'Movilidad Cervical Suave', duration:10, icon:'🦴', note:'Hoy más suave. Si hay fatiga cervical, reducir rango.',
         exercises:[ex('a4-cerv','Movilización cervical muy suave','5 reps/lado','therapy',['Solo el rango sin molestia','Enfocarse en soltar tensión','Coordinar con la respiración'],'cuello',30,120)]},
       { num:3, title:'Fortalecimiento Lumbar Suave', duration:15, icon:'🔥', note:'Mantener el estímulo sin sobrecargar.',
-        exercises:[ex('a4-brid','Puente de glúteos suave','10 reps × 2','therapy',['Sin elevar más de lo cómodo','Control en la bajada','Descansar entre series'],null,0,0)]},
+        exercises:[ex('a4-brid','Puente de glúteos suave','10 reps × 2','therapy',['Sin elevar más de lo cómodo','Control en la bajada','Descansar entre series'],null,0,150)]},
       { num:4, title:'Circulación Completa Pies y Piernas', duration:10, icon:'🦵', note:'Sesión completa de bomba venosa.',
         exercises:[ex('a4-circ','Protocolo completo de circulación','5-7 min','therapy',['Elevación de talones × 20','Circunducción tobillos × 10/lado','Elevación rodillas alternadas × 20'],'circulacion',0,300)]},
       { num:5, title:'Estiramientos Largos', duration:5, icon:'🧘', note:'Hoy estiramientos de mayor duración (hasta 1 min/posición).',
-        exercises:[ex('a4-deep','Estiramientos profundos globales','1 min / posición','therapy',['Cobra + mahometano','Estiramiento glúteo y muslo','Respiración abdominal profunda'],null,0,0)]}
+        exercises:[ex('a4-deep','Estiramientos profundos globales','1 min / posición','therapy',['Cobra + mahometano','Estiramiento glúteo y muslo','Respiración abdominal profunda'],null,0,180)]}
     ]},
 
   { dayNum:5, week:'A', dayLabel:'Viernes',   title:'Cuerpo Completo con Pesas',         subtitle:'Integración global — Fuerza funcional',           icon:'🏋️', color:'#f59e0b', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico Activo', duration:20, icon:'🚶', note:'Calentamiento más activo, preparando para pesas.',
-        exercises:[ex('a5-w','Caminata activa o bicicleta','20 min, últimos 5 más intenso','warm',['Elevar gradualmente la FC','Movilizar hombros y caderas','Terminar a 65-70% FC máx'],null,0,0)]},
+        exercises:[ex('a5-w','Caminata activa o bicicleta','20 min, últimos 5 más intenso','warm',['Elevar gradualmente la FC','Movilizar hombros y caderas','Terminar a 65-70% FC máx'],null,0,1200)]},
       { num:2, title:'Movilidad Preparatoria para Pesas', duration:10, icon:'🦴', note:'Preparar articulaciones para la carga.',
         exercises:[ex('a5-mob','Movilización cuello y hombros','5 reps/zona','therapy',['Cuello: rotaciones suaves','Hombros: circunducción amplia','Muñecas: preparación pre-carga'],'cuello',30,120)]},
       { num:3, title:'Pesas — Tren Superior', duration:15, icon:'💪', note:'Calidad antes que cantidad. Técnica correcta.',
@@ -931,60 +937,60 @@ const PLAN = [
       { num:4, title:'Pesas — Tren Inferior', duration:10, icon:'🦵', note:'Completar el trabajo de cuerpo completo.',
         exercises:[ex('a5-pinf','Rutina pesas tren inferior','Segunda mitad del video','normal',['Control en la excéntrica (bajada)','Rodillas alineadas con pies','No bloquear rodillas al extender'],'pesas',600,1200)]},
       { num:5, title:'Estiramientos Post-Pesas', duration:5, icon:'🧘', note:'Estirar inmediatamente después del trabajo con pesas.',
-        exercises:[ex('a5-post','Estiramiento global post-pesas','45 seg / grupo muscular','therapy',['Pecho + hombros + espalda','Cuádriceps + isquios + glúteos','Respiración profunda en cada postura'],null,0,0)]}
+        exercises:[ex('a5-post','Estiramiento global post-pesas','45 seg / grupo muscular','therapy',['Pecho + hombros + espalda','Cuádriceps + isquios + glúteos','Respiración profunda en cada postura'],null,0,180)]}
     ]},
 
   /* ══ SEMANA B ══ */
   { dayNum:6, week:'B', dayLabel:'Lunes',     title:'Piernas — Fuerza y Neurodinámico',  subtitle:'Tren inferior — Activación y movilización neural',  icon:'🦵', color:'#10b981', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Activar piernas antes del trabajo de fuerza y neurodinámico.',
-        exercises:[ex('b1-w','Caminata activa','20 min con variaciones','warm',['Alternar ritmo cada 5 min','Incluir elevación de rodillas','Activar glúteos en cada paso'],null,0,0)]},
+        exercises:[ex('b1-w','Caminata activa','20 min con variaciones','warm',['Alternar ritmo cada 5 min','Incluir elevación de rodillas','Activar glúteos en cada paso'],null,0,1200)]},
       { num:2, title:'Preparación y Movilidad de Cadera', duration:10, icon:'🦴', note:'Preparar cadera, lumbar y tobillo para el trabajo de piernas.',
         exercises:[
           ex('b1-cerv','Movilización cervical breve','3-4 reps/lado','therapy',['Mantenimiento cervical rápido','Solo 3 minutos','Pasar rápido a cadera'],'cuello',30,90),
-          ex('b1-cad','Movilidad de cadera en suelo','8 reps/lado','therapy',['Círculos de rodilla en supino','Flexión cadera contra pecho','Rotación interna/externa'],null,0,0)]},
+          ex('b1-cad','Movilidad de cadera en suelo','8 reps/lado','therapy',['Círculos de rodilla en supino','Flexión cadera contra pecho','Rotación interna/externa'],null,0,180)]},
       { num:3, title:'Neurodinámico de Piernas', duration:15, icon:'⚡', note:'Movilización del sistema nervioso periférico de piernas.',
         exercises:[ex('b1-npi','Protocolo neurodinámico de piernas','10-12 reps × 2 / pierna','therapy',['Posición supina, cadera a 90°','Extender rodilla + flexionar tobillo','Mantener 2 seg, regresar lento'],'neuroPiernas',0,300)]},
       { num:4, title:'Recuperar Fuerza de Piernas', duration:10, icon:'💪', note:'Inicio de la progresión de fuerza. Prioriza técnica sobre carga.',
         exercises:[ex('b1-fuer','Ejercicios de fuerza piernas','2-3 series inicio','therapy',['Empezar con carga baja','Control en la bajada','No compensar con espalda'],'fuerzaPiernas',0,300)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Estirar bien isquiotibiales y cuádriceps.',
-        exercises:[ex('b1-str','Estiramiento isquiotibiales y cuádriceps','45 seg × 2 / lado','therapy',['Isquiotibiales: pierna extendida','Cuádriceps: de pie o decúbito prono','Glúteo: figura 4'],null,0,0)]}
+        exercises:[ex('b1-str','Estiramiento isquiotibiales y cuádriceps','45 seg × 2 / lado','therapy',['Isquiotibiales: pierna extendida','Cuádriceps: de pie o decúbito prono','Glúteo: figura 4'],null,0,180)]}
     ]},
 
   { dayNum:7, week:'B', dayLabel:'Martes',    title:'Glúteos, Abdomen y Piernas',        subtitle:'Tren inferior — Integración funcional completa',    icon:'🍑', color:'#f97316', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Activar glúteos y core durante el calentamiento.',
-        exercises:[ex('b2-w','Caminata con activación de glúteos','20 min','warm',['Apretar glúteos cada 5 pasos','Mantener abdomen activado','Postura erguida'],null,0,0)]},
+        exercises:[ex('b2-w','Caminata con activación de glúteos','20 min','warm',['Apretar glúteos cada 5 pasos','Mantener abdomen activado','Postura erguida'],null,0,1200)]},
       { num:2, title:'Movilidad de Cadera y Lumbar', duration:10, icon:'🔄', note:'Preparar la cadera para el trabajo de glúteos.',
         exercises:[
           ex('b2-libro','"Libro abierto" — Torsión torácica','8 reps × 2 / lado','therapy',['Decúbito lateral, rodillas a 90°','Girar tronco superior, cadera fija','Mantener 2 seg al llegar al rango'],'libroAbierto',0,0),
-          ex('b2-pelv','Báscula pélvica + activación','10 reps','therapy',['Activar core antes del movimiento','Respirar al subir y bajar','Preparar para la sesión principal'],null,0,0)]},
+          ex('b2-pelv','Báscula pélvica + activación','10 reps','therapy',['Activar core antes del movimiento','Respirar al subir y bajar','Preparar para la sesión principal'],null,0,90)]},
       { num:3, title:'Glúteos, Abdomen y Piernas — Principal', duration:15, icon:'🔥', note:'Sesión principal. Mantener activación abdominal constante.',
         exercises:[ex('b2-glut','Rutina completa glúteos + abdomen','Primera parte del video','normal',['Activar abdomen antes de cada ejercicio','Control de rodillas (no hacia adentro)','Subir dificultad gradualmente'],'gluteos',0,600)]},
       { num:4, title:'Circulación Post-Esfuerzo', duration:10, icon:'💧', note:'La bomba muscular ayuda al retorno venoso tras el trabajo intenso.',
         exercises:[ex('b2-circ','Circulación pies y piernas','3-5 min','therapy',['Elevación de talones y tobillos','Marcha suave en el lugar','Elevar piernas si es posible'],'circulacion',0,180)]},
       { num:5, title:'Estiramientos y Vuelta a la Calma', duration:5, icon:'🧘', note:'Estiramiento profundo de glúteos y cadena posterior.',
-        exercises:[ex('b2-str','Cobra, glúteo y muslo','45 seg × 2 / posición','therapy',['Cobra: extender columna suavemente','Mahometano: relajar lumbar','Figura 4: glúteo profundo'],null,0,0)]}
+        exercises:[ex('b2-str','Cobra, glúteo y muslo','45 seg × 2 / posición','therapy',['Cobra: extender columna suavemente','Mahometano: relajar lumbar','Figura 4: glúteo profundo'],null,0,180)]}
     ]},
 
   { dayNum:8, week:'B', dayLabel:'Miércoles', title:'Masa Muscular Piernas',              subtitle:'Tren inferior — Hipertrofia y fuerza progresiva',  icon:'💪', color:'#059669', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico Activo', duration:20, icon:'🚶', note:'Mayor calentamiento por ser día de masa muscular.',
-        exercises:[ex('b3-w','Bicicleta o caminata activa','20 min, últimos 5 más intenso','warm',['Activar piernas progresivamente','Sentadillas parciales ligeras al final','Llegar a 65-70% FC máx'],null,0,0)]},
+        exercises:[ex('b3-w','Bicicleta o caminata activa','20 min, últimos 5 más intenso','warm',['Activar piernas progresivamente','Sentadillas parciales ligeras al final','Llegar a 65-70% FC máx'],null,0,1200)]},
       { num:2, title:'Movilidad Preparatoria Piernas', duration:10, icon:'🦵', note:'Calentar rodillas, tobillos y caderas antes de la carga.',
-        exercises:[ex('b3-mob','Sentadillas suaves de movilidad','10 reps × 2','therapy',['Sin carga, solo peso corporal','Rodillas alineadas con pies','Bajar hasta el rango cómodo'],null,0,0)]},
+        exercises:[ex('b3-mob','Sentadillas suaves de movilidad','10 reps × 2','therapy',['Sin carga, solo peso corporal','Rodillas alineadas con pies','Bajar hasta el rango cómodo'],null,0,150)]},
       { num:3, title:'Masa Muscular Piernas — Parte 1', duration:15, icon:'🏋️', note:'Primera parte del trabajo de hipertrofia.',
         exercises:[ex('b3-m1','Rutina masa piernas — primera mitad','Primera mitad del video','normal',['Calidad de movimiento antes de carga','Descanso 60-90 seg entre series','Mantener técnica en la fatiga'],'masaPiernas',0,600)]},
       { num:4, title:'Masa Muscular Piernas — Parte 2', duration:10, icon:'🔥', note:'Completar el volumen de trabajo.',
         exercises:[ex('b3-m2','Rutina masa piernas — segunda mitad','Segunda mitad del video','normal',['Mantener concentración en el músculo','Si hay fatiga, reducir carga','Hidratación entre series'],'masaPiernas',600,1200)]},
       { num:5, title:'Estiramientos Profundos', duration:5, icon:'🧘', note:'Estirar profundamente todos los grupos trabajados.',
-        exercises:[ex('b3-str','Estiramiento completo piernas','1 min / grupo muscular','therapy',['Cuádriceps: de pie o prono','Isquiotibiales: sedente o supino','Pantorrillas: talón al suelo'],null,0,0)]}
+        exercises:[ex('b3-str','Estiramiento completo piernas','1 min / grupo muscular','therapy',['Cuádriceps: de pie o prono','Isquiotibiales: sedente o supino','Pantorrillas: talón al suelo'],null,0,180)]}
     ]},
 
   { dayNum:9, week:'B', dayLabel:'Jueves',    title:'Recuperación + Neurodinámico Combinado', subtitle:'Recuperación activa — Sistema nervioso global', icon:'💧', color:'#0ea5e9', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico Suave', duration:20, icon:'🚶', note:'Día de recuperación. Ritmo bajo (50% FC máx).',
-        exercises:[ex('b4-w','Caminata suave de recuperación','20 min ritmo bajo','warm',['Sin elevación de FC','Movimiento fluido y relajado','Respiración consciente'],null,0,0)]},
+        exercises:[ex('b4-w','Caminata suave de recuperación','20 min ritmo bajo','warm',['Sin elevación de FC','Movimiento fluido y relajado','Respiración consciente'],null,0,1200)]},
       { num:2, title:'Movilidad Cuello y Brazos', duration:10, icon:'🦴', note:'Mantenimiento del tren superior en semana B.',
         exercises:[
           ex('b4-cerv','Movilización cervical suave','5 reps/lado','therapy',['No forzar el rango','Solo mantener movilidad','Respiración nasal'],'cuello',30,120),
@@ -996,13 +1002,13 @@ const PLAN = [
           ex('b4-man','Movilidad de manos suave','2 min','therapy',['Abre y cierra manos × 10','Circunducción de muñecas','Extensión de dedos'],'manos',0,90),
           ex('b4-circ','Circulación pies y tobillos','3 min','therapy',['Elevación de talones × 15','Círculos de tobillo × 8/lado','Marcha en el lugar'],'circulacion',0,150)]},
       { num:5, title:'Estiramientos de Todo el Cuerpo', duration:5, icon:'🧘', note:'Estirar todos los grupos musculares trabajados esta semana.',
-        exercises:[ex('b4-glob','Estiramiento global completo','30 seg / posición','therapy',['Cuello → hombros → espalda → cadera → piernas','Recorre todo el cuerpo de arriba abajo','Respiración profunda en cada posición'],null,0,0)]}
+        exercises:[ex('b4-glob','Estiramiento global completo','30 seg / posición','therapy',['Cuello → hombros → espalda → cadera → piernas','Recorre todo el cuerpo de arriba abajo','Respiración profunda en cada posición'],null,0,180)]}
     ]},
 
   { dayNum:10, week:'B', dayLabel:'Viernes',  title:'Fuerza Piernas + Integración Final', subtitle:'Tren inferior — Cierre de ciclo con máxima integración', icon:'🏆', color:'#d97706', totalMin:60,
     phases:[
       { num:1, title:'Calentamiento Aeróbico', duration:20, icon:'🚶', note:'Último viernes del ciclo. Calentamiento completo.',
-        exercises:[ex('b5-w','Bicicleta o caminata activa','20 min con progresión','warm',['Progresión 50→65% FC máx','Últimos 5 min a ritmo sostenido','Preparación mental para el cierre'],null,0,0)]},
+        exercises:[ex('b5-w','Bicicleta o caminata activa','20 min con progresión','warm',['Progresión 50→65% FC máx','Últimos 5 min a ritmo sostenido','Preparación mental para el cierre'],null,0,1200)]},
       { num:2, title:'Movilidad Lumbar y Cadera', duration:10, icon:'🔄', note:'Preparar el complejo lumbo-pélvico para el trabajo final.',
         exercises:[ex('b5-lumb','Movilización lumbar y cadera','8 reps/movimiento','therapy',['Báscula pélvica × 10','"Libro abierto" × 8/lado','Círculos de cadera en cuadrupedia'],'libroAbierto',0,0)]},
       { num:3, title:'Recuperar Fuerza Piernas — Sesión Completa', duration:15, icon:'💪', note:'Sesión de fuerza más completa del ciclo.',
@@ -1010,7 +1016,7 @@ const PLAN = [
       { num:4, title:'Glúteos — Integración Final', duration:10, icon:'🍑', note:'Trabajo complementario de glúteos para cerrar el ciclo.',
         exercises:[ex('b5-glut','Glúteos finales del ciclo','2-3 series','normal',['Complementar fuerza piernas','Mantener abdomen activado','Finalizar el trabajo de tren inferior'],'gluteos',0,480)]},
       { num:5, title:'Estiramientos de Cierre de Ciclo', duration:5, icon:'🧘', note:'¡Cerraste el ciclo de 2 semanas! Estiramientos de celebración.',
-        exercises:[ex('b5-fin','Estiramiento final de cierre','1 min × posición','therapy',['Isquiotibiales y glúteos profundos','Espalda baja y cadera','Inhala 4s, exhala 6s'],null,0,0)]}
+        exercises:[ex('b5-fin','Estiramiento final de cierre','1 min × posición','therapy',['Isquiotibiales y glúteos profundos','Espalda baja y cadera','Inhala 4s, exhala 6s'],null,0,180)]}
     ]}
 ];
 
@@ -1035,11 +1041,11 @@ const LIBRARY_EXERCISES = [
   { id:'lib-pesas', title:'Cuerpo completo con pesas', area:'full', type:'normal', icon:'💪', dose:'30-45 min',
     steps:['Calentar primero','Usar carga controlable','Técnica antes de peso'], video:'pesas', start:0, end:1800 },
   { id:'lib-pelv', title:'Báscula pélvica', area:'core', type:'therapy', icon:'🔥', dose:'10 reps × 3',
-    steps:['Tumbado boca arriba','Aplanar zona lumbar','Sostener 3 s y soltar'], video:null, start:0, end:0 },
+    steps:['Tumbado boca arriba','Aplanar zona lumbar','Sostener 3 s y soltar'], video:null, start:0, end:180 },
   { id:'lib-bridge', title:'Puente de glúteos', area:'core', type:'therapy', icon:'🍑', dose:'12 reps × 3',
-    steps:['Pies apoyados rodillas 90°','Elevar cadera contrayendo glúteos','Bajar lentamente'], video:null, start:0, end:0 },
+    steps:['Pies apoyados rodillas 90°','Elevar cadera contrayendo glúteos','Bajar lentamente'], video:null, start:0, end:180 },
   { id:'lib-cobra', title:'Cobra y mahometano', area:'core', type:'therapy', icon:'🧘', dose:'45 seg / posición',
-    steps:['Cobra: manos al suelo, arquear suave','Mahometano: sentarse en talones','Respirar profundo'], video:null, start:0, end:0 }
+    steps:['Cobra: manos al suelo, arquear suave','Mahometano: sentarse en talones','Respirar profundo'], video:null, start:0, end:90 }
 ];
 
 /* ═══════════════════════════════════════════════════
@@ -1300,8 +1306,10 @@ function renderPhaseSection(day, ph) {
 /* Map exercise IDs to illustration type */
 const ILLUS_MAP = {
   // suelo / fortalecimiento
-  'a1-pelv':'pelv','a1-brid':'bridge',
+  'a1-pelv':'pelv','a1-brid':'bridge','a4-brid':'bridge',
   'b2-pelv':'pelv','b5-lumb':'libro',
+  // biblioteca (mismas ilustraciones que sus equivalentes en el plan)
+  'lib-pelv':'pelv','lib-bridge':'bridge','lib-cobra':'cobra',
   // estiramientos
   'a1-cobr':'cobra','a1-glut':'glut','a2-wrist':'wrist','a2-neck':'neck',
   'a3-str':'glut','a4-deep':'cobra','a5-post':'glut',
@@ -1548,12 +1556,16 @@ const SVG_ILLUS = {
   </svg>`
 };
 
+const INFOGRAFIA_URL = 'https://drive.google.com/file/d/1jLEhtq0ZjOnOaBkipQ30BQ7HeWf_jUOL/view';
+
 function getIllustration(ex) {
   const type = ILLUS_MAP[ex.id];
-  if (!type) return '';
-  const svg = SVG_ILLUS[type];
-  if (!svg) return '';
-  return `<div class="ex-illus"><div class="ex-illus-svg">${svg}</div></div>`;
+  const svg = type ? SVG_ILLUS[type] : null;
+  if (svg) return `<div class="ex-illus"><div class="ex-illus-svg">${svg}</div></div>`;
+  // Sin ilustración SVG propia: enlazar a la infografía general como respaldo
+  return `<div class="ex-illus ex-illus-fallback">
+    <a href="${INFOGRAFIA_URL}" target="_blank" rel="noopener" class="btn btn-sec btn-sm" style="width:100%">🖼 Ver en infografía guía</a>
+  </div>`;
 }
 
 function renderExItem(e, dayNum, phNum) {
@@ -1643,6 +1655,7 @@ function renderLibrary() {
     const s = mk ? mk.start : e.start;
     const en = mk ? mk.end : e.end;
     const hasV = !!e.video;
+    const libIllus = !hasV ? getIllustration(e) : '';
     return `<div class="lib-card">
       <div class="lib-top">
         <div class="lib-ico">${icons[e.area] || '🏋️'}</div>
@@ -1655,6 +1668,7 @@ function renderLibrary() {
           </div>
         </div>
       </div>
+      ${libIllus}
       <ul class="lib-steps">${e.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
       <div class="lib-actions">
         ${hasV ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end})">▶ Ver fragmento</button>` : ''}
@@ -1784,6 +1798,29 @@ document.getElementById('mkReset').addEventListener('click', () => {
 ═══════════════════════════════════════════════════ */
 ST.timerTotal = 0; // total seconds for progress bar
 
+// Señal auditiva al finalizar el timer (sin archivos externos, Web Audio API)
+let audioCtx = null;
+function playTimerBeep() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    // Tres tonos ascendentes cortos
+    [0, 0.28, 0.56].forEach((offset, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 880 + i * 110;
+      gain.gain.setValueAtTime(0, now + offset);
+      gain.gain.linearRampToValueAtTime(0.35, now + offset + 0.02);
+      gain.gain.linearRampToValueAtTime(0, now + offset + 0.22);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now + offset);
+      osc.stop(now + offset + 0.24);
+    });
+  } catch (err) { /* Audio no disponible en este navegador */ }
+}
+
 function startTimer(sec, label, autoStart) {
   clearInterval(ST.timerInterval);
   ST.timerRunning = false;
@@ -1815,6 +1852,7 @@ function triggerTimerStart() {
       document.getElementById('timerBar').classList.remove('synced');
       document.getElementById('timerStartBtn').textContent = '▶ Iniciar';
       if (navigator.vibrate) navigator.vibrate([200, 80, 200, 80, 200]);
+      playTimerBeep();
     }
   }, 1000);
 }
