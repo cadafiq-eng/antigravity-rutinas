@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Antigravity — Programa terapéutico de ejercicio de 2 semanas con guía de video y marcadores de tiempo personalizados">
 
   <!-- PWA: instalable en iPad / iPhone / Android -->
@@ -16,19 +16,11 @@
   <!-- Service Worker registration (offline + instalable) -->
   <script>
     if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE = 'ag-v3';
-        const ASSETS = ['./', './app-rutinas-v3.html', './manifest.json', './icon-512.png'];
-        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS))));
-        self.addEventListener('fetch', e => {
-          // Videos: siempre desde la red (no cachear archivos grandes)
-          if (e.request.url.includes('/Videos/')) { e.respondWith(fetch(e.request)); return; }
-          e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.warn('No se pudo activar el modo sin conexión:', err);
         });
-      `;
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).catch(() => {});
+      });
     }
   </script>
   <title>Antigravity — Rutinas Terapéuticas</title>
@@ -132,6 +124,14 @@
     .timer-dig.low { color:var(--warn); animation:pls 1s ease infinite; }
     .timer-dig.done { color:var(--err); }
     @keyframes pls { 0%,100%{opacity:1} 50%{opacity:.45} }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      *, *::before, *::after {
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
+    }
     .timer-label { flex:1; min-width:120px; }
     .timer-label strong { display:block; font-size:13px; margin-bottom:2px; }
     .timer-label span { font-size:11px; color:var(--muted); }
@@ -274,6 +274,14 @@
     .ex-info  { flex:1; }
     .ex-name  { font-size:14px; font-weight:700; line-height:1.3; margin-bottom:1px; }
     .ex-dose  { font-size:12px; color:var(--muted); }
+    .ex-dose strong { color:#cbd5e1; font-weight:700; }
+    .ex-brief {
+      font-size:12px; color:#a8b5cf; line-height:1.5;
+      margin:0 0 9px; padding:8px 10px;
+      background:rgba(6,182,212,.06);
+      border-left:2px solid rgba(6,182,212,.45);
+      border-radius:0 var(--rS) var(--rS) 0;
+    }
     .ex-tags  { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:7px; }
     .ex-tag   { padding:2px 7px; border-radius:5px; font-size:11px; font-weight:700; }
     .ex-tag.therapy { background:rgba(99,102,241,.15); color:#a5b4fc; }
@@ -294,7 +302,8 @@
     }
     .ex-illus-img {
       width:100%; display:block; border-radius:var(--r);
-      object-fit:contain; max-height:200px;
+      height:auto; object-fit:contain; max-height:360px;
+      background:#dcebf5;
     }
     /* SVG inline illustrations */
     .ex-illus-svg {
@@ -1295,7 +1304,7 @@ function renderPhaseSection(day, ph) {
     </div>
     <div class="phase-bd">
       <div class="phase-note">${ph.note}</div>
-      ${ph.exercises.map(e => renderExItem(e, day.dayNum, ph.num)).join('')}
+      ${ph.exercises.map(e => renderExItem(e, day.dayNum, ph.num, ph.duration, ph.exercises.length)).join('')}
       <button class="btn ${done ? 'btn-sec' : 'btn-ok'} btn-full" onclick="togglePhaseComplete(${day.dayNum},${ph.num})">
         ${done ? '↩ Marcar como pendiente' : '✓ Marcar fase completa'}
       </button>
@@ -1558,38 +1567,96 @@ const SVG_ILLUS = {
 
 const INFOGRAFIA_URL = 'https://drive.google.com/file/d/1jLEhtq0ZjOnOaBkipQ30BQ7HeWf_jUOL/view';
 
+const IMAGE_ILLUS = {
+  walk:'walk-cycle.jpg',
+  pelv:'pelvic-tilt.jpg',
+  bridge:'bridge-male-v2.jpg',
+  elev:'leg-raise.jpg',
+  libro:'open-book-male-v2.jpg',
+  cobra:'cobra-child.jpg',
+  glut:'glute-stretch.jpg',
+  neck:'neck-stretch-male-v2.jpg',
+  wrist:'wrist-stretch-v2.jpg',
+  cadera:'hip-mobility.jpg',
+  squat:'supported-squat-male-v2.jpg'
+};
+
 function getIllustration(ex) {
   const type = ILLUS_MAP[ex.id];
+  const image = type ? IMAGE_ILLUS[type] : null;
+  if (image) return `<figure class="ex-illus">
+    <img class="ex-illus-img" src="assets/exercises-web/${image}" alt="Guía visual del ejercicio: ${ex.title}" width="900" height="600" loading="lazy" decoding="async">
+    <figcaption class="ex-illus-cap">Guía visual · realiza el movimiento lento y dentro de un rango cómodo</figcaption>
+  </figure>`;
   const svg = type ? SVG_ILLUS[type] : null;
-  if (svg) return `<div class="ex-illus"><div class="ex-illus-svg">${svg}</div></div>`;
+  if (svg) return `<figure class="ex-illus" role="img" aria-label="Guía visual: ${ex.title}">
+    <div class="ex-illus-svg" aria-hidden="true">${svg}</div>
+    <figcaption class="ex-illus-cap">Guía visual · realiza el movimiento lento y dentro de un rango cómodo</figcaption>
+  </figure>`;
   // Sin ilustración SVG propia: enlazar a la infografía general como respaldo
   return `<div class="ex-illus ex-illus-fallback">
     <a href="${INFOGRAFIA_URL}" target="_blank" rel="noopener" class="btn btn-sec btn-sm" style="width:100%">🖼 Ver en infografía guía</a>
   </div>`;
 }
 
-function renderExItem(e, dayNum, phNum) {
+function getExerciseTimerSeconds(e, phaseDurationMin = 0, exerciseCount = 1) {
+  const segmentDuration = Math.max(0, (e.end || 0) - (e.start || 0));
+  if (segmentDuration > 0) return segmentDuration;
+
+  const dose = String(e.dose || '').toLowerCase();
+  const minMatch = dose.match(/(\d+)(?:\s*-\s*(\d+))?\s*min/);
+  if (minMatch) return Number(minMatch[2] || minMatch[1]) * 60;
+  const secMatch = dose.match(/(\d+)\s*seg/);
+  if (secMatch) return Number(secMatch[1]);
+
+  if (phaseDurationMin > 0) {
+    return Math.max(60, Math.round((phaseDurationMin * 60) / Math.max(1, exerciseCount)));
+  }
+  return 60;
+}
+
+function getExerciseBrief(e) {
+  const steps = (e.steps || []).slice(0, 2);
+  return steps.length ? `${steps.join('. ')}.` : 'Realiza el movimiento de forma lenta, estable y sin dolor.';
+}
+
+function startExerciseTimer(exId, seconds) {
+  let exercise = null;
+  for (const day of PLAN) {
+    for (const phase of day.phases) {
+      exercise = phase.exercises.find(item => item.id === exId);
+      if (exercise) break;
+    }
+    if (exercise) break;
+  }
+  if (!exercise) exercise = LIBRARY_EXERCISES.find(item => item.id === exId);
+  startTimer(seconds, exercise ? exercise.title : 'Ejercicio', true);
+}
+
+function renderExItem(e, dayNum, phNum, phaseDurationMin, exerciseCount) {
   const mk = getMarker(e.id);
   const s = mk ? mk.start : e.start;
   const end = mk ? mk.end : e.end;
   const hasVideo = !!e.video;
   const illus = !hasVideo ? getIllustration(e) : '';
+  const timerSeconds = getExerciseTimerSeconds(e, phaseDurationMin, exerciseCount);
   return `<div class="ex-item" id="exi-${e.id}">
     <div class="ex-top">
       <div class="ex-info">
         <div class="ex-name">${e.title}</div>
-        <div class="ex-dose">${e.dose}</div>
+        <div class="ex-dose"><strong>Tiempo / repeticiones:</strong> ${e.dose} · ${fmtTime(timerSeconds)} sugeridos</div>
       </div>
     </div>
     <div class="ex-tags">
       <span class="ex-tag ${e.type}">${e.type === 'therapy' ? 'Terapéutico' : e.type === 'warm' ? 'Calentamiento' : 'Normal'}</span>
-      ${hasVideo ? `<span class="ex-tag therapy">📹 ${fmtTime(s)}-${fmtTime(end)}</span>` : ''}
+      ${hasVideo ? `<span class="ex-tag therapy">📹 ${end > s ? `${fmtTime(s)}-${fmtTime(end)}` : 'Video completo'}</span>` : ''}
     </div>
+    <p class="ex-brief">${getExerciseBrief(e)}</p>
     ${illus}
     <ul class="ex-steps">${e.steps.map(s => `<li>${s}</li>`).join('')}</ul>
     <div class="ex-actions">
-      ${hasVideo ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end})">▶ Ver fragmento</button>` : ''}
-      ${e.end > e.start ? `<button class="btn btn-sec btn-sm" onclick="startTimer(${e.end - e.start},'${e.title}',true)">⏱ ${fmtTime(e.end - e.start)}</button>` : ''}
+      ${hasVideo ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end},${timerSeconds})">▶ Video + timer</button>` : ''}
+      <button class="btn btn-sec btn-sm" onclick="startExerciseTimer('${e.id}',${timerSeconds})">⏱ Iniciar ${fmtTime(timerSeconds)}</button>
     </div>
   </div>`;
 }
@@ -1656,6 +1723,7 @@ function renderLibrary() {
     const en = mk ? mk.end : e.end;
     const hasV = !!e.video;
     const libIllus = !hasV ? getIllustration(e) : '';
+    const timerSeconds = getExerciseTimerSeconds(e);
     return `<div class="lib-card">
       <div class="lib-top">
         <div class="lib-ico">${icons[e.area] || '🏋️'}</div>
@@ -1664,15 +1732,17 @@ function renderLibrary() {
           <div class="lib-tags">
             <span class="ex-tag ${e.type}">${e.type === 'therapy' ? 'Terapéutico' : 'Normal'}</span>
             <span class="ex-tag therapy">${e.area}</span>
-            ${hasV ? `<span class="ex-tag normal">📹 ${fmtTime(s)}-${fmtTime(en)}</span>` : ''}
+            ${hasV ? `<span class="ex-tag normal">📹 ${en > s ? `${fmtTime(s)}-${fmtTime(en)}` : 'Video completo'}</span>` : ''}
           </div>
         </div>
       </div>
+      <div class="ex-dose" style="margin-bottom:8px"><strong>Tiempo / repeticiones:</strong> ${e.dose} · ${fmtTime(timerSeconds)} sugeridos</div>
+      <p class="ex-brief">${getExerciseBrief(e)}</p>
       ${libIllus}
       <ul class="lib-steps">${e.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
       <div class="lib-actions">
-        ${hasV ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end})">▶ Ver fragmento</button>` : ''}
-        ${(en - s) > 0 ? `<button class="btn btn-sec btn-sm" onclick="startTimer(${en-s},'${e.title}')">⏱ ${fmtTime(en-s)}</button>` : ''}
+        ${hasV ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end},${timerSeconds})">▶ Video + timer</button>` : ''}
+        <button class="btn btn-sec btn-sm" onclick="startExerciseTimer('${e.id}',${timerSeconds})">⏱ Iniciar ${fmtTime(timerSeconds)}</button>
       </div>
     </div>`;
   }).join('') || `<div style="text-align:center;padding:30px;color:var(--muted)">No se encontraron ejercicios</div>`;
@@ -1684,7 +1754,7 @@ function renderLibrary() {
 const player = document.getElementById('player');
 const vidEmpty = document.getElementById('vidEmpty');
 
-function openVideo(exId, videoKey, defaultStart, defaultEnd) {
+function openVideo(exId, videoKey, defaultStart, defaultEnd, fallbackDuration = 60) {
   const vid = VIDEOS[videoKey];
   if (!vid) return;
   let exTitle = exId;
@@ -1693,8 +1763,8 @@ function openVideo(exId, videoKey, defaultStart, defaultEnd) {
   if (libEx) exTitle = libEx.title;
 
   const mk = getMarker(exId) || { start: defaultStart, end: defaultEnd };
-  ST.activeExercise = { id: exId, videoKey, defaultStart, defaultEnd };
-  ST.stopAt = mk.end;
+  ST.activeExercise = { id: exId, videoKey, defaultStart, defaultEnd, fallbackDuration };
+  ST.stopAt = mk.end > mk.start ? mk.end : null;
 
   document.getElementById('vsTitle').textContent = exTitle;
   document.getElementById('vsSubtitle').textContent = vid.title;
@@ -1704,8 +1774,8 @@ function openVideo(exId, videoKey, defaultStart, defaultEnd) {
   const videoSource = db('videoSource', 'drive');
   if (videoSource === 'drive') {
     // Auto-start timer even in Drive mode
-    const dur = mk.end - mk.start;
-    if (dur > 0) startTimer(dur, exTitle, true);
+    const dur = mk.end > mk.start ? mk.end - mk.start : fallbackDuration;
+    startTimer(dur, exTitle, true);
     window.open(vid.drive, '_blank');
     return;
   }
@@ -1720,14 +1790,14 @@ function openVideo(exId, videoKey, defaultStart, defaultEnd) {
       player.currentTime = mk.start;
       player.play().catch(() => {});
       // Sync timer with video segment
-      const dur = mk.end - mk.start;
-      if (dur > 0) startTimer(dur, exTitle, true);
+      const dur = mk.end > mk.start ? mk.end - mk.start : fallbackDuration;
+      startTimer(dur, exTitle, true);
     };
   } else {
     player.currentTime = mk.start;
     player.play().catch(() => {});
-    const dur = mk.end - mk.start;
-    if (dur > 0) startTimer(dur, exTitle, true);
+    const dur = mk.end > mk.start ? mk.end - mk.start : fallbackDuration;
+    startTimer(dur, exTitle, true);
   }
 
   document.getElementById('videoOv').classList.add('open');
