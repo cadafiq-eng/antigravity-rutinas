@@ -317,6 +317,51 @@
       padding:4px 8px 8px; font-style:italic;
     }
 
+    /* ─── Video thumbnail card ─── */
+    .ex-video-thumb {
+      position:relative; width:100%; border-radius:var(--r);
+      overflow:hidden; margin-bottom:9px; cursor:pointer;
+      min-height:130px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid var(--border);
+    }
+    .ex-video-thumb-bg {
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .ex-video-thumb-figure {
+      position:relative; z-index:1;
+      width:100%; display:flex; align-items:center; justify-content:center;
+      padding:8px 12px 4px;
+    }
+    .ex-video-thumb-figure svg { width:100%; max-height:150px; }
+    .ex-video-thumb-overlay {
+      position:absolute; inset:0; z-index:2;
+      background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.45) 100%);
+      display:flex; align-items:center; justify-content:center;
+      transition:background .2s;
+    }
+    .ex-video-thumb:hover .ex-video-thumb-overlay {
+      background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.58) 100%);
+    }
+    .ex-video-play {
+      width:50px; height:50px; border-radius:50%;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(4px);
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 20px rgba(0,0,0,.35);
+      transition:transform .18s, box-shadow .18s;
+    }
+    .ex-video-thumb:hover .ex-video-play {
+      transform:scale(1.1); box-shadow:0 6px 28px rgba(0,0,0,.45);
+    }
+    .ex-video-play svg { margin-left:3px; }
+    .ex-video-label {
+      position:absolute; bottom:7px; left:0; right:0; z-index:3;
+      text-align:center; font-size:10px; font-weight:700;
+      color:rgba(255,255,255,.9); letter-spacing:.06em; text-transform:uppercase;
+      text-shadow:0 1px 4px rgba(0,0,0,.4);
+    }
+
     /* ═══════════════════ BUTTONS ═══════════════════ */
     .btn {
       display:inline-flex; align-items:center; gap:5px;
@@ -1581,6 +1626,41 @@ const IMAGE_ILLUS = {
   squat:'supported-squat-male-v2.jpg'
 };
 
+/* ─── Video thumbnail config por area muscular ─── */
+const VIDEO_THUMB_CFG = {
+  cuello:  { bg:'linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 100%)', accent:'#6366f1',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="38" r="18" fill="#a5b4fc"/><line x1="100" y1="56" x2="100" y2="90" stroke="#818cf8" stroke-width="12" stroke-linecap="round"/><path d="M84 68 Q70 72 65 80" fill="none" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/><path d="M116 68 Q130 72 135 80" fill="none" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/><path d="M88 90 Q85 108 88 122" fill="none" stroke="#6366f1" stroke-width="11" stroke-linecap="round"/><path d="M112 90 Q115 108 112 122" fill="none" stroke="#6366f1" stroke-width="11" stroke-linecap="round"/><path d="M80 34 Q100 18 120 34" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4 3" marker-end="url(#vt1)"/><defs><marker id="vt1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs></svg>` },
+  manos:   { bg:'linear-gradient(135deg,#ede9fe 0%,#ddd6fe 100%)', accent:'#8b5cf6',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><ellipse cx="90" cy="80" rx="22" ry="18" fill="#a78bfa"/><line x1="72" y1="72" x2="60" y2="52" stroke="#a78bfa" stroke-width="8" stroke-linecap="round"/><line x1="80" y1="65" x2="72" y2="44" stroke="#a78bfa" stroke-width="8" stroke-linecap="round"/><line x1="90" y1="63" x2="90" y2="42" stroke="#a78bfa" stroke-width="8" stroke-linecap="round"/><line x1="100" y1="65" x2="108" y2="44" stroke="#a78bfa" stroke-width="8" stroke-linecap="round"/><line x1="107" y1="72" x2="120" y2="54" stroke="#a78bfa" stroke-width="8" stroke-linecap="round"/><ellipse cx="130" cy="70" rx="20" ry="16" fill="#8b5cf6" opacity=".7" transform="rotate(-20 130 70)"/><line x1="145" y1="60" x2="155" y2="42" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round" opacity=".8"/><line x1="130" y1="55" x2="130" y2="36" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round" opacity=".8"/></svg>` },
+  piernas: { bg:'linear-gradient(135deg,#d1fae5 0%,#a7f3d0 100%)', accent:'#10b981',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="22" r="16" fill="#6ee7b7"/><line x1="100" y1="38" x2="100" y2="72" stroke="#34d399" stroke-width="12" stroke-linecap="round"/><path d="M88 48 Q72 54 68 64" fill="none" stroke="#34d399" stroke-width="8" stroke-linecap="round"/><path d="M112 48 Q128 54 132 64" fill="none" stroke="#34d399" stroke-width="8" stroke-linecap="round"/><path d="M93 72 Q88 96 90 120" fill="none" stroke="#10b981" stroke-width="12" stroke-linecap="round"/><path d="M107 72 Q112 96 110 120" fill="none" stroke="#10b981" stroke-width="12" stroke-linecap="round"/></svg>` },
+  core:    { bg:'linear-gradient(135deg,#fef3c7 0%,#fde68a 100%)', accent:'#f59e0b',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="118" x2="170" y2="118" stroke="#fcd34d" stroke-width="4" stroke-linecap="round"/><circle cx="48" cy="90" r="14" fill="#fbbf24"/><path d="M48 104 Q108 90 155 108" fill="none" stroke="#f59e0b" stroke-width="12" stroke-linecap="round"/><path d="M118 102 Q132 88 148 78" fill="none" stroke="#d97706" stroke-width="11" stroke-linecap="round"/><path d="M118 102 Q115 116 118 118" fill="none" stroke="#92400e" stroke-width="10" stroke-linecap="round"/><path d="M148 78 Q155 96 155 108" fill="none" stroke="#92400e" stroke-width="10" stroke-linecap="round"/></svg>` },
+  columna: { bg:'linear-gradient(135deg,#fce7f3 0%,#fbcfe8 100%)', accent:'#ec4899',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><circle cx="68" cy="48" r="14" fill="#f9a8d4"/><line x1="68" y1="62" x2="68" y2="96" stroke="#f472b6" stroke-width="12" stroke-linecap="round"/><path d="M56 72 Q44 78 40 88" fill="none" stroke="#f472b6" stroke-width="8" stroke-linecap="round"/><path d="M80 72 Q152 52 178 55" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" opacity=".9"/><path d="M60 96 Q58 112 60 120" fill="none" stroke="#be185d" stroke-width="11" stroke-linecap="round"/><path d="M76 96 Q78 112 76 120" fill="none" stroke="#be185d" stroke-width="11" stroke-linecap="round"/></svg>` },
+  full:    { bg:'linear-gradient(135deg,#fff7ed 0%,#fed7aa 100%)', accent:'#f97316',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="22" r="16" fill="#fdba74"/><line x1="100" y1="38" x2="100" y2="78" stroke="#fb923c" stroke-width="12" stroke-linecap="round"/><path d="M88 50 Q65 44 55 48" fill="none" stroke="#fb923c" stroke-width="9" stroke-linecap="round"/><ellipse cx="50" cy="52" rx="8" ry="7" fill="#fdba74"/><path d="M112 50 Q135 44 145 48" fill="none" stroke="#fb923c" stroke-width="9" stroke-linecap="round"/><ellipse cx="150" cy="52" rx="8" ry="7" fill="#fdba74"/><path d="M93 78 Q88 100 90 122" fill="none" stroke="#ea580c" stroke-width="12" stroke-linecap="round"/><path d="M107 78 Q112 100 110 122" fill="none" stroke="#ea580c" stroke-width="12" stroke-linecap="round"/></svg>` },
+  brazos:  { bg:'linear-gradient(135deg,#e0f2fe 0%,#bae6fd 100%)', accent:'#0284c7',
+             svg:`<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="28" r="16" fill="#7dd3fc"/><line x1="100" y1="44" x2="100" y2="78" stroke="#38bdf8" stroke-width="12" stroke-linecap="round"/><path d="M88 54 Q62 50 40 62" fill="none" stroke="#38bdf8" stroke-width="9" stroke-linecap="round"/><path d="M40 62 Q32 72 38 82" fill="none" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round"/><path d="M112 54 Q138 50 160 62" fill="none" stroke="#38bdf8" stroke-width="9" stroke-linecap="round"/><path d="M160 62 Q168 72 162 82" fill="none" stroke="#0ea5e9" stroke-width="8" stroke-linecap="round"/><path d="M93 78 Q88 100 90 120" fill="none" stroke="#0284c7" stroke-width="12" stroke-linecap="round"/><path d="M107 78 Q112 100 110 120" fill="none" stroke="#0284c7" stroke-width="12" stroke-linecap="round"/></svg>` }
+};
+
+function getVideoThumb(e, timerSeconds) {
+  const vid = VIDEOS[e.video];
+  const area = vid ? vid.area : 'full';
+  const cfg = VIDEO_THUMB_CFG[area] || VIDEO_THUMB_CFG.full;
+  const ts = timerSeconds || 0;
+  return `<div class="ex-video-thumb" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end},${ts})" role="button" aria-label="Ver video ${e.title}">
+    <div class="ex-video-thumb-bg" style="background:${cfg.bg};position:absolute;inset:0;"></div>
+    <div class="ex-video-thumb-figure">${cfg.svg}</div>
+    <div class="ex-video-thumb-overlay">
+      <div class="ex-video-play">
+        <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="6,3 17,10 6,17" fill="${cfg.accent}"/></svg>
+      </div>
+    </div>
+    <div class="ex-video-label">${vid ? vid.title : ''}${ts > 0 ? ' · ' + fmtTime(ts) : ''}</div>
+  </div>`;
+}
+
 function getIllustration(ex) {
   const type = ILLUS_MAP[ex.id];
   const image = type ? IMAGE_ILLUS[type] : null;
@@ -1638,8 +1718,8 @@ function renderExItem(e, dayNum, phNum, phaseDurationMin, exerciseCount) {
   const s = mk ? mk.start : e.start;
   const end = mk ? mk.end : e.end;
   const hasVideo = !!e.video;
-  const illus = !hasVideo ? getIllustration(e) : '';
   const timerSeconds = getExerciseTimerSeconds(e, phaseDurationMin, exerciseCount);
+  const visual = hasVideo ? getVideoThumb(e, timerSeconds) : getIllustration(e);
   return `<div class="ex-item" id="exi-${e.id}">
     <div class="ex-top">
       <div class="ex-info">
@@ -1652,7 +1732,7 @@ function renderExItem(e, dayNum, phNum, phaseDurationMin, exerciseCount) {
       ${hasVideo ? `<span class="ex-tag therapy">📹 ${end > s ? `${fmtTime(s)}-${fmtTime(end)}` : 'Video completo'}</span>` : ''}
     </div>
     <p class="ex-brief">${getExerciseBrief(e)}</p>
-    ${illus}
+    ${visual}
     <ul class="ex-steps">${e.steps.map(s => `<li>${s}</li>`).join('')}</ul>
     <div class="ex-actions">
       ${hasVideo ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end},${timerSeconds})">▶ Video + timer</button>` : ''}
@@ -1722,8 +1802,8 @@ function renderLibrary() {
     const s = mk ? mk.start : e.start;
     const en = mk ? mk.end : e.end;
     const hasV = !!e.video;
-    const libIllus = !hasV ? getIllustration(e) : '';
     const timerSeconds = getExerciseTimerSeconds(e);
+    const libVisual = hasV ? getVideoThumb(e, timerSeconds) : getIllustration(e);
     return `<div class="lib-card">
       <div class="lib-top">
         <div class="lib-ico">${icons[e.area] || '🏋️'}</div>
@@ -1738,7 +1818,7 @@ function renderLibrary() {
       </div>
       <div class="ex-dose" style="margin-bottom:8px"><strong>Tiempo / repeticiones:</strong> ${e.dose} · ${fmtTime(timerSeconds)} sugeridos</div>
       <p class="ex-brief">${getExerciseBrief(e)}</p>
-      ${libIllus}
+      ${libVisual}
       <ul class="lib-steps">${e.steps.map(s=>`<li>${s}</li>`).join('')}</ul>
       <div class="lib-actions">
         ${hasV ? `<button class="btn btn-pri btn-sm" onclick="openVideo('${e.id}','${e.video}',${e.start},${e.end},${timerSeconds})">▶ Video + timer</button>` : ''}
