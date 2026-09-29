@@ -1,11 +1,335 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=app-rutinas-v3.html">
-  <title>Antigravity — Rutinas Terapéuticas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Antigravity Rutinas PWA - Ejercicios terapéuticos, normales y neurodinámicos con explicación detallada en 3 fases, figuras anatómicas, reloj y temporizador integrado.">
+  
+  <!-- PWA & Mobile Web App Capable -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Antigravity Rutinas">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <meta name="theme-color" content="#0b1120">
+
+  <title>Antigravity — Rutinas y Ejercicios PWA</title>
+
+  <!-- Tipografía moderna sin dependencias externas obligatorias -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script>window.location.replace('app-rutinas-v3.html');</script>
+
+  <!-- Notificación de Modo Offline -->
+  <div id="offlineNoticeBanner" class="offline-banner"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       CABECERA CON LOGO, RELOJ EN VIVO Y SELECTOR DE TEMA
+       ═══════════════════════════════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>Antigravity</h1>
+        <p>Rutinas & Salud Integral</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <!-- Reloj Digital en Tiempo Real -->
+      <div class="live-clock-badge" title="Hora local actual">
+        <span class="clock-dot"></span>
+        <span id="liveClockDisplay">--:--:--</span>
+      </div>
+
+      <!-- Botón para alternar visibilidad del temporizador -->
+      <button id="timerToggleBtn" class="timer-header-btn" title="Mostrar/Ocultar Temporizador" aria-label="Temporizador">
+        ⏱️
+      </button>
+
+      <!-- Selector de Modo Claro / Oscuro -->
+      <button id="themeToggleBtn" class="theme-toggle-btn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema">
+        🌙
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       BARRA HERO DE TEMPORIZADOR Y CRONÓMETRO
+       ═══════════════════════════════════════════════════════════════════ -->
+  <section id="timerHeroBar" class="timer-hero-container">
+    <div class="timer-bar-content">
+      <div class="timer-main-row">
+        <div class="timer-display-box">
+          <div id="timerDigitalDisplay" class="timer-digital-display">00:40</div>
+          <div class="timer-label-box">
+            <h3 id="timerLabel">Temporizador Activo</h3>
+            <p id="timerSublabel">Toca un ejercicio o selecciona un preset</p>
+          </div>
+        </div>
+
+        <div class="timer-actions">
+          <button id="timerStartBtn" class="btn-timer btn-timer-primary">
+            ▶ Iniciar
+          </button>
+          <button id="timerResetBtn" class="btn-timer btn-timer-secondary" title="Reiniciar tiempo">
+            ↺ Reset
+          </button>
+          <button id="timerMinus10Btn" class="btn-timer btn-timer-secondary" title="Restar 10 segundos">
+            -10s
+          </button>
+          <button id="timerPlus10Btn" class="btn-timer btn-timer-secondary" title="Sumar 10 segundos">
+            +10s
+          </button>
+        </div>
+      </div>
+
+      <!-- Presets de tiempo rápido -->
+      <div id="timerPresetsContainer" class="timer-presets"></div>
+
+      <!-- Barra de progreso visual -->
+      <div class="timer-progress-track">
+        <div id="timerProgressFill" class="timer-progress-fill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       CONTENEDOR PRINCIPAL Y PESTAÑAS
+       ═══════════════════════════════════════════════════════════════════ -->
+  <main class="app-container">
+
+    <!-- ═══ PESTAÑA 1: CATÁLOGO DE EJERCICIOS ═══ -->
+    <section id="tab-catalog" class="tab-pane active">
+      <div class="hero-card">
+        <h2>Catálogo Maestro de Ejercicios y Figuras</h2>
+        <p>
+          Guía técnica completa organizada en <strong>3 fases estrictas (Inicio, Ejecución y Final)</strong>. 
+          Incluye zonas y modalidades completadas: <strong>Normales</strong> (piernas, brazo, antebrazo, cuello, espalda) y 
+          <strong>Neurodinámicos</strong> (zona lumbar, dorsal, cuello y hombros).
+        </p>
+        <div class="hero-badges">
+          <span class="hero-badge">⚡ 100% Funcional Offline</span>
+          <span class="hero-badge">🦴 Prevención de Lesiones</span>
+          <span class="hero-badge">📐 Figuras Anatómicas Vectoriales</span>
+          <span class="hero-badge" id="exerciseCountBadge">Cargando...</span>
+        </div>
+      </div>
+
+      <!-- Filtros y Búsqueda -->
+      <div class="filter-section">
+        <!-- Buscador -->
+        <div class="search-box-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="exerciseSearchInput" class="search-input" placeholder="Buscar ejercicio, músculo o técnica (ej. sentadilla, ciático, cuello)..." autocomplete="off">
+        </div>
+
+        <!-- Filtro por Propósito -->
+        <div>
+          <div class="filter-group-label">Propósito / Modalidad</div>
+          <div id="purposeChipsContainer" class="chips-scroll"></div>
+        </div>
+
+        <!-- Filtro por Zona Corporal -->
+        <div>
+          <div class="filter-group-label">Región del Cuerpo</div>
+          <div id="areaChipsContainer" class="chips-scroll"></div>
+        </div>
+      </div>
+
+      <!-- Grid de Tarjetas de Ejercicios -->
+      <div id="exerciseGridContainer" class="exercise-grid"></div>
+    </section>
+
+    <!-- ═══ PESTAÑA 2: INFOGRAFÍAS COMPLETAS EN HD ═══ -->
+    <section id="tab-infographics" class="tab-pane">
+      <div class="hero-card">
+        <h2>Infografías Oficiales del Programa</h2>
+        <p>
+          Láminas ilustrativas de alta resolución para referencia rápida de bloques de calentamiento, fuerza, 
+          estabilidad y vuelta a la calma. Toca cualquier lámina para verla en pantalla completa con zoom.
+        </p>
+      </div>
+
+      <div id="infographicsGridContainer" class="infographics-grid"></div>
+    </section>
+
+    <!-- ═══ PESTAÑA 3: RUTINAS GUIADAS ═══ -->
+    <section id="tab-routines" class="tab-pane">
+      <div class="hero-card">
+        <h2>Rutinas Terapéuticas y de Fuerza</h2>
+        <p>
+          Selecciona una rutina prediseñada para iniciar una sesión guiada paso a paso. 
+          El temporizador se programará automáticamente en cada ejercicio.
+        </p>
+      </div>
+
+      <div id="routinesListContainer" class="routines-list"></div>
+    </section>
+
+    <!-- ═══ PESTAÑA 4: GUÍA Y CONSEJOS CLÍNICOS ═══ -->
+    <section id="tab-guide" class="tab-pane">
+      <div class="hero-card">
+        <h2>Principios Terapéuticos y Control Motor</h2>
+        <p>
+          Recomendaciones clínicas esenciales para ejercitarse con seguridad, regular la carga y 
+          movilizar el sistema nervioso periférico sin desencadenar dolor.
+        </p>
+      </div>
+
+      <div style="display: grid; gap: 16px;">
+        <article class="phase-card inicio">
+          <div class="phase-title">🟢 1. Regla de Oro en Ejercicios Neurodinámicos</div>
+          <div class="phase-text">
+            Los ejercicios neurodinámicos (deslizamientos neurales para nervio ciático, femoral, mediano, radial, cubital o raíces cervicales) 
+            <strong>NUNCA deben provocar dolor eléctrico, ardor ni hormigueo sostenido</strong>. 
+            El objetivo es el <em>deslizamiento</em> del nervio sobre sus túneles anatómicos, no el estiramiento violento. 
+            Si notas tensión o adormecimiento, reduce de inmediato el ángulo o rango del movimiento.
+          </div>
+        </article>
+
+        <article class="phase-card ejecucion">
+          <div class="phase-title">🟡 2. Control de la Respiración y el Tempo</div>
+          <div class="phase-text">
+            Inhala durante la preparación o la fase excéntrica (bajada o estiramiento) y <strong>exhala de forma controlada por la boca 
+            durante la fase concéntrica (empuje o esfuerzo)</strong>. Evita siempre la maniobra de Valsalva (aguantar el aire con fuerza), 
+            ya que eleva la presión arterial y aumenta innecesariamente la presión intradiscal en la columna lumbar.
+          </div>
+        </article>
+
+        <article class="phase-card final">
+          <div class="phase-title">🔴 3. La Importancia del Retorno Seguro (Final)</div>
+          <div class="phase-text">
+            La mayor parte de los incidentes o molestias musculares ocurren al <strong>desmontar la postura de forma descuidada al final de la serie</strong>. 
+            Termina cada repetición con desaceleración suave, no dejes caer el peso por gravedad y nunca bloquees las articulaciones (rodillas o codos) 
+            en hiperextensión brusca.
+          </div>
+        </article>
+
+        <article class="phase-card errores">
+          <div class="phase-title">⚠️ 4. Protocolo de Días de Descanso y Retorno</div>
+          <div class="phase-text">
+            <strong>Si perdiste 1 día:</strong> Continúa con la siguiente sesión con normalidad.<br>
+            <strong>Si perdiste 2 días:</strong> Comienza con un calentamiento más largo y reduce la intensidad al 70-80%.<br>
+            <strong>Si pasaron 3 o más días:</strong> Reinicia con la rutina de movilidad suave o pausa activa para reacondicionar tejidos sin sobrecarga.
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       BARRA DE NAVEGACIÓN DOCK INFERIOR (PWA MOBILE)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <nav class="bottom-dock-nav" aria-label="Navegación principal">
+    <button class="dock-btn active" data-tab="catalog">
+      <span class="dock-icon">📚</span>
+      <span>Catálogo</span>
+    </button>
+    <button class="dock-btn" data-tab="infographics">
+      <span class="dock-icon">🖼️</span>
+      <span>Infografías</span>
+    </button>
+    <button class="dock-btn" data-tab="routines">
+      <span class="dock-icon">📅</span>
+      <span>Rutinas</span>
+    </button>
+    <button class="dock-btn" data-tab="guide">
+      <span class="dock-icon">📖</span>
+      <span>Guía</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       MODAL DE DETALLE DE TÉCNICA (3 FASES: INICIO - EJECUCIÓN - FINAL)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <div id="exerciseDetailModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalExerciseTitle">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalExerciseTitle">Detalle de Técnica</h3>
+          <div id="modalBadgeGroup" class="card-tags" style="margin-top: 4px;"></div>
+        </div>
+        <button id="closeExerciseModalBtn" class="close-modal-btn" title="Cerrar modal" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Figura anatómica SVG en grande -->
+        <div id="modalFigureContainer" class="exercise-figure-wrapper" style="max-height: 200px;"></div>
+
+        <!-- Músculos diana y Dosis -->
+        <div class="card-summary-box">
+          <div style="margin-bottom: 6px;">
+            <strong>🎯 Músculos Diana / Objetivo:</strong>
+            <span id="modalTargetText">--</span>
+          </div>
+          <div>
+            <strong>⏱️ Dosis Sugerida:</strong>
+            <span id="modalDoseText">--</span>
+          </div>
+        </div>
+
+        <!-- FASE 1: INICIO -->
+        <div class="phase-card inicio">
+          <div class="phase-title">🟢 1. Posición Inicial (Inicio)</div>
+          <div id="modalInicioText" class="phase-text">--</div>
+        </div>
+
+        <!-- FASE 2: EJECUCIÓN -->
+        <div class="phase-card ejecucion">
+          <div class="phase-title">🟡 2. Ejecución (Desarrollo y Tempo)</div>
+          <div id="modalEjecucionText" class="phase-text">--</div>
+        </div>
+
+        <!-- FASE 3: FINAL Y RETORNO SEGURO -->
+        <div class="phase-card final">
+          <div class="phase-title">🔴 3. Posición Final y Retorno Seguro</div>
+          <div id="modalFinalText" class="phase-text">--</div>
+        </div>
+
+        <!-- FASE 4: ERRORES COMUNES -->
+        <div class="phase-card errores">
+          <div class="phase-title">⚠️ Errores Comunes y Prevención</div>
+          <div id="modalErroresText" class="phase-text">--</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="modalTimerActionBtn" class="btn-card btn-card-pri" style="width: 100%;">
+          ⏱️ Cargar Dosis en Temporizador
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       MODAL DE INFOGRAFÍA COMPLETA EN ALTA RESOLUCIÓN
+       ═══════════════════════════════════════════════════════════════════ -->
+  <div id="infographicZoomModal" class="modal-overlay info-viewer-modal" role="dialog" aria-modal="true" aria-labelledby="infographicModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 id="infographicModalTitle">Infografía Completa</h3>
+        <button id="closeInfographicModalBtn" class="close-modal-btn" title="Cerrar visor" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 10px; text-align: center; overflow-y: auto;">
+        <img id="infographicFullImg" src="" alt="Infografía" class="info-full-img">
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SCRIPTS (CERO DEPENDENCIAS EXTERNAS OBRIGATORIAS)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <script src="data/exercises-data.js"></script>
+  <script src="app.js"></script>
+
 </body>
 </html>
