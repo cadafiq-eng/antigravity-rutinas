@@ -5,7 +5,7 @@
  * - Cache dinámico para Infografías e Imágenes
  */
 
-const CACHE_NAME = 'antigravity-rutinas-v1.0';
+const CACHE_NAME = 'antigravity-rutinas-v1.1';
 
 const APP_SHELL = [
   './',
@@ -21,7 +21,18 @@ const APP_SHELL = [
   './assets/infografias/rutina-terapeutica-inferior.png',
   './assets/infografias/rutina-terapeutica-superior-ligas.png',
   './assets/infografias/rutina-terapeutica-superior-sinligas.png',
-  './assets/infografias/rutina-terapeutica-cuerpocompleto.png'
+  './assets/infografias/rutina-terapeutica-cuerpocompleto.png',
+  './assets/exercises-web/supported-squat-male-v2.jpg',
+  './assets/exercises-web/walk-cycle.jpg',
+  './assets/exercises-web/bridge-male-v2.jpg',
+  './assets/exercises-web/pelvic-tilt.jpg',
+  './assets/exercises-web/open-book-male-v2.jpg',
+  './assets/exercises-web/neck-stretch-male-v2.jpg',
+  './assets/exercises-web/wrist-stretch-v2.jpg',
+  './assets/exercises-web/cobra-child.jpg',
+  './assets/exercises-web/glute-stretch.jpg',
+  './assets/exercises-web/leg-raise.jpg',
+  './assets/exercises-web/hip-mobility.jpg'
 ];
 
 self.addEventListener('install', event => {

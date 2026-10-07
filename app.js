@@ -448,7 +448,9 @@
     }
 
     dom.exerciseGrid.innerHTML = filtered.map(ex => {
-      const svgArt = DB.generateSvgFigure(ex.svgKind || 'default');
+      const visualContent = ex.image
+        ? `<div style="position:relative; width:100%;"><span class="human-fig-badge">👤 Figura Humana Real</span><img src="${ex.image}" alt="${ex.title}" class="ex-human-img" loading="lazy"></div>`
+        : DB.generateSvgFigure(ex.svgKind || 'default');
       const badgeCls = getBadgeClass(ex.purpose);
       const purposeLbl = getPurposeLabel(ex.purpose);
 
@@ -466,8 +468,8 @@
             </div>
           </div>
 
-          <div class="exercise-figure-wrapper" onclick="window.appOpenDetail('${ex.id}')" title="Toca para ver técnica completa">
-            ${svgArt}
+          <div class="exercise-figure-wrapper" onclick="window.appOpenDetail('${ex.id}')" title="Toca para ver técnica y figura completa">
+            ${visualContent}
           </div>
 
           <div class="card-summary-box">
@@ -517,8 +519,10 @@
       </span>
     `;
 
-    // Figura vectorial
-    dom.exerciseModalFigure.innerHTML = DB.generateSvgFigure(ex.svgKind || 'default');
+    // Figura: Imagen 3D real si existe, o silueta humana anatómica
+    dom.exerciseModalFigure.innerHTML = ex.image
+      ? `<div style="position:relative; width:100%; text-align:center;"><span class="human-fig-badge">👤 Figura Humana Real</span><img src="${ex.image}" alt="${ex.title}" class="ex-human-img modal-img" loading="lazy"></div>`
+      : DB.generateSvgFigure(ex.svgKind || 'default');
 
     // Datos generales
     dom.modalDoseText.textContent = ex.dose;

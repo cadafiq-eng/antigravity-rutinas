@@ -1,9 +1,6 @@
 /**
  * Antigravity Rutinas - Base de Datos Maestra de Ejercicios
- * Contiene ejercicios para todas las zonas y propósitos solicitados:
- * - Normales: Piernas, Brazo, Antebrazo, Cuello, Espalda
- * - Neurodinámicos: Lumbar, Dorsal, Cuello, Hombros
- * - Terapéuticos, Calentamiento y Vuelta a la Calma
+ * Figuras Anatómicas y Siluetas Humanas Reales (Sin cartoons ni monigotes)
  * Explicación detallada en 3 fases: Inicio, Ejecución, Final y Errores comunes.
  */
 
@@ -83,178 +80,259 @@
     }
   ];
 
-  // Helper generador de diagramas vectoriales para figuras de ejercicios
+  /**
+   * Generador de Siluetas Humanas Anatómicas Reales en SVG
+   * Modela contornos anatómicos del cuerpo humano (cabeza, torso, deltoides, piernas, glúteos)
+   * con flechas de vector biomecánico y sombreado muscular.
+   */
   function generateSvgFigure(kind) {
     const bg = '#0f172a';
-    const bodyTone = '#38bdf8';
-    const accentTone = '#f59e0b';
-    const nerveTone = '#a855f7';
-    const jointTone = '#ffffff';
+    const silDark = '#1e3a5f';
+    const silActive = '#38bdf8';
+    const muscleAccent = '#f59e0b';
+    const nervePurple = '#c084fc';
 
     switch(kind) {
-      case 'squat':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <line x1="20" y1="160" x2="220" y2="160" stroke="#334155" stroke-width="3" stroke-dasharray="4 4"/>
-          <!-- Figura de pie guía transparente -->
-          <circle cx="60" cy="50" r="10" fill="#475569" opacity="0.4"/>
-          <line x1="60" y1="60" x2="60" y2="110" stroke="#475569" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
-          <line x1="60" y1="110" x2="60" y2="160" stroke="#475569" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
-          <!-- Figura en sentadilla activa -->
-          <circle cx="160" cy="65" r="12" fill="${bodyTone}"/>
-          <!-- Tronco en 45 grados neutro -->
-          <line x1="160" y1="77" x2="140" y2="115" stroke="${bodyTone}" stroke-width="8" stroke-linecap="round"/>
-          <!-- Muslos horizontales -->
-          <line x1="140" y1="115" x2="185" y2="115" stroke="${accentTone}" stroke-width="8" stroke-linecap="round"/>
-          <!-- Pantorrillas paralelas al tronco -->
-          <line x1="185" y1="115" x2="175" y2="160" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <!-- Pie firme -->
-          <line x1="165" y1="160" x2="190" y2="160" stroke="${bodyTone}" stroke-width="5" stroke-linecap="round"/>
-          <!-- Brazos al frente equilibrando -->
-          <line x1="155" y1="85" x2="195" y2="90" stroke="${bodyTone}" stroke-width="5" stroke-linecap="round"/>
-          <!-- Flecha de vector de empuje talones -->
-          <path d="M140 135 L140 100" stroke="#10b981" stroke-width="3" marker-end="url(#arrow)" fill="none"/>
-          <text x="120" y="28" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="sans-serif">Empuja con talones · Espalda neutra</text>
+      // SILUETA HUMANA: SENTADILLA / TREN INFERIOR
+      case 'squat-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Silueta en bipedestación (inicio tenue) -->
+          <g opacity="0.3">
+            <path d="M70 42 C76 42 80 47 80 54 C80 61 76 65 70 65 C64 65 60 61 60 54 C60 47 64 42 70 42 Z" fill="#94a3b8"/>
+            <path d="M63 68 C68 66 73 66 78 68 C83 72 84 85 83 105 C83 118 81 126 77 128 C73 130 68 130 64 128 C60 126 58 118 58 105 C57 85 58 72 63 68 Z" fill="#94a3b8"/>
+            <path d="M62 128 L60 180 L70 180 L72 128 Z" fill="#94a3b8"/>
+            <path d="M72 128 L74 180 L84 180 L82 128 Z" fill="#94a3b8"/>
+          </g>
+          <!-- Flecha de descenso pélvico -->
+          <path d="M90 95 C115 90 135 110 150 120" stroke="${muscleAccent}" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="4 4"/>
+          <polygon points="152,114 156,124 145,123" fill="${muscleAccent}"/>
+          <!-- Silueta humana en sentadilla profunda anatómica -->
+          <g>
+            <!-- Cabeza y cuello alineados -->
+            <path d="M192 68 C198 68 203 73 203 80 C203 87 198 92 192 92 C186 92 181 87 181 80 C181 73 186 68 192 68 Z" fill="${silActive}"/>
+            <!-- Tronco y pecho erguido a 45° con musculatura de espalda -->
+            <path d="M185 93 C180 96 172 104 163 115 C155 125 146 135 137 136 C131 137 127 131 132 124 C140 114 150 102 162 94 C170 89 178 88 185 93 Z" fill="${silActive}"/>
+            <!-- Brazos extendidos al frente para equilibrio -->
+            <path d="M180 98 C195 98 220 95 240 92 C243 92 245 95 242 97 C222 102 198 105 178 105 Z" fill="${silActive}"/>
+            <!-- Muslos / Cuádriceps y Glúteos (Área de Trabajo) -->
+            <path d="M137 136 C148 136 170 134 195 133 C204 133 210 139 205 145 C190 160 165 158 135 152 C125 149 126 136 137 136 Z" fill="${muscleAccent}"/>
+            <!-- Piernas / Pantorrilla hacia talón -->
+            <path d="M195 135 C198 145 197 165 190 178 C188 181 185 181 183 178 C180 168 182 152 185 140 Z" fill="${silActive}"/>
+            <!-- Pie plano en el suelo (talón firme) -->
+            <path d="M178 178 C185 176 198 176 206 179 C207 181 204 183 195 183 L175 183 Z" fill="${silActive}"/>
+          </g>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Silueta Humana: Descenso de Cadera y Tronco Neutro</text>
         </svg>`;
 
-      case 'lunge':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <line x1="20" y1="160" x2="220" y2="160" stroke="#334155" stroke-width="3"/>
-          <circle cx="120" cy="45" r="11" fill="${bodyTone}"/>
-          <line x1="120" y1="56" x2="120" y2="105" stroke="${bodyTone}" stroke-width="8" stroke-linecap="round"/>
-          <!-- Pierna delantera 90 grados -->
-          <line x1="120" y1="105" x2="155" y2="115" stroke="${accentTone}" stroke-width="7" stroke-linecap="round"/>
-          <line x1="155" y1="115" x2="155" y2="160" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <!-- Pierna trasera 90 grados hacia abajo -->
-          <line x1="120" y1="105" x2="80" y2="125" stroke="${accentTone}" stroke-width="7" stroke-linecap="round"/>
-          <line x1="80" y1="125" x2="80" y2="155" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <circle cx="80" cy="155" r="4" fill="${jointTone}"/>
-          <text x="120" y="26" fill="#94a3b8" font-size="11" text-anchor="middle">Zancada 90° / 90° · Tronco vertical</text>
+      // SILUETA HUMANA: ZANCADA (LUNGE)
+      case 'lunge-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Cabeza y torso erguido vertical -->
+          <circle cx="135" cy="52" r="11" fill="${silActive}"/>
+          <path d="M130 65 C135 64 140 64 143 66 C147 75 146 100 144 118 C140 120 132 120 128 118 C126 100 126 75 130 65 Z" fill="${silActive}"/>
+          <!-- Pierna delantera flexionada a 90° -->
+          <path d="M138 116 C150 118 168 122 182 126 C186 128 185 135 180 137 C168 135 150 130 136 126 Z" fill="${muscleAccent}"/>
+          <path d="M182 126 C184 138 183 158 182 178 L174 178 C174 158 175 138 178 126 Z" fill="${silActive}"/>
+          <rect x="170" y="176" width="22" height="6" rx="2" fill="${silActive}"/>
+          <!-- Pierna trasera en ángulo de 90° hacia el suelo -->
+          <path d="M130 116 C115 125 100 136 92 145 C88 143 89 136 96 130 C108 120 122 114 130 116 Z" fill="${muscleAccent}"/>
+          <path d="M92 145 C92 155 92 168 91 176 L83 176 C83 165 84 152 86 143 Z" fill="${silActive}"/>
+          <circle cx="91" cy="176" r="4" fill="${muscleAccent}"/>
+          <!-- Vector direccional 90/90 -->
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Zancada Anatómica: 90° Delantera / 90° Trasera</text>
         </svg>`;
 
-      case 'slump':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <!-- Silla -->
-          <line x1="70" y1="120" x2="120" y2="120" stroke="#64748b" stroke-width="5"/>
-          <line x1="70" y1="80" x2="70" y2="160" stroke="#64748b" stroke-width="5"/>
-          <line x1="115" y1="120" x2="115" y2="160" stroke="#64748b" stroke-width="5"/>
-          <line x1="20" y1="160" x2="220" y2="160" stroke="#334155" stroke-width="2"/>
-          <!-- Persona sentada -->
-          <circle cx="85" cy="70" r="10" fill="${nerveTone}"/>
-          <!-- Columna relajada / flexión cervical y dorsal -->
-          <path d="M85 80 C80 95 85 110 95 120" stroke="${bodyTone}" stroke-width="7" fill="none" stroke-linecap="round"/>
-          <!-- Muslo en silla -->
-          <line x1="95" y1="120" x2="135" y2="120" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <!-- Pierna extendiéndose en deslizamiento -->
-          <line x1="135" y1="120" x2="180" y2="130" stroke="${accentTone}" stroke-width="6" stroke-linecap="round"/>
-          <!-- Pie en dorsiflexión -->
-          <line x1="180" y1="130" x2="185" y2="118" stroke="${nerveTone}" stroke-width="5" stroke-linecap="round"/>
-          <!-- Línea neural ciática pulsante -->
-          <path d="M90 115 Q135 125 180 128" stroke="${nerveTone}" stroke-width="2" stroke-dasharray="3 3" fill="none"/>
-          <text x="120" y="26" fill="#c084fc" font-size="11" text-anchor="middle">Slump Ciático · Deslizamiento neural sin dolor</text>
+      // SILUETA HUMANA: REMO DE ESPALDA CON MOCHILA / CARGA
+      case 'row-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Cabeza alineada con columna a 45° -->
+          <circle cx="85" cy="62" r="10" fill="${silActive}"/>
+          <!-- Tronco anatómico inclinado recto -->
+          <path d="M92 70 C105 76 122 88 142 108 C138 114 130 116 124 112 C108 96 95 84 88 77 Z" fill="${muscleAccent}"/>
+          <!-- Piernas semiflexionadas con cadera atrás -->
+          <path d="M142 108 C148 116 154 130 156 148 L147 150 C144 134 139 122 135 114 Z" fill="${silActive}"/>
+          <path d="M156 148 L152 178 L143 178 L147 150 Z" fill="${silActive}"/>
+          <rect x="140" y="176" width="22" height="6" rx="2" fill="${silActive}"/>
+          <!-- Brazo jalando con codo arriba pegado a costillas -->
+          <path d="M102 78 C115 72 130 68 136 78 C138 88 132 102 126 116 L118 114 C124 100 128 88 126 82 C122 78 112 80 102 85 Z" fill="${silActive}"/>
+          <!-- Mochila / Peso en tracción -->
+          <rect x="114" y="112" width="26" height="28" rx="5" fill="#64748b" stroke="#94a3b8" stroke-width="1.5"/>
+          <path d="M127 75 L127 60" stroke="${muscleAccent}" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="127,55 123,65 131,65" fill="${muscleAccent}"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Remo Anatómico: Retracción Escapular y Codo Atrás</text>
         </svg>`;
 
-      case 'openbook':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <line x1="20" y1="145" x2="220" y2="145" stroke="#334155" stroke-width="3"/>
-          <!-- Decúbito lateral -->
-          <circle cx="65" cy="125" r="9" fill="${bodyTone}"/>
-          <!-- Tronco en suelo -->
-          <line x1="74" y1="125" x2="125" y2="125" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <!-- Caderas y rodillas 90° -->
-          <line x1="125" y1="125" x2="125" y2="105" stroke="${accentTone}" stroke-width="7" stroke-linecap="round"/>
-          <line x1="125" y1="105" x2="155" y2="105" stroke="${accentTone}" stroke-width="6" stroke-linecap="round"/>
-          <!-- Brazo abriéndose hacia atrás en arco -->
-          <path d="M90 125 C100 80 150 70 175 80" stroke="${nerveTone}" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <circle cx="175" cy="80" r="4" fill="${jointTone}"/>
-          <!-- Flecha de giro torácico -->
-          <path d="M125 90 A 30 30 0 0 1 155 80" stroke="#f59e0b" stroke-width="2" fill="none"/>
-          <text x="120" y="26" fill="#38bdf8" font-size="11" text-anchor="middle">Libro Abierto · Rotación Torácica Dorsal</text>
+      // SILUETA HUMANA: PESO MUERTO RUMANO (BISAGRA DE CADERA)
+      case 'deadlift-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <circle cx="85" cy="72" r="10" fill="${silActive}"/>
+          <!-- Columna neutra como tabla oblicua -->
+          <path d="M92 78 C110 86 135 102 155 116 C152 122 144 124 138 120 C120 104 102 90 90 84 Z" fill="${silActive}"/>
+          <!-- Glúteo e isquiotibiales en tensión elástica (resaltados) -->
+          <path d="M155 116 C164 124 165 142 162 158 C158 160 152 158 152 150 C154 138 150 126 142 120 Z" fill="${muscleAccent}"/>
+          <path d="M162 158 L158 178 L150 178 L152 150 Z" fill="${silActive}"/>
+          <!-- Brazos colgando perpendiculares con carga pegada a espinillas -->
+          <path d="M106 88 L106 145 L98 145 L98 88 Z" fill="${silActive}"/>
+          <rect x="92" y="142" width="22" height="24" rx="4" fill="#64748b"/>
+          <!-- Flecha de empuje de cadera hacia atrás -->
+          <path d="M135 105 C150 95 170 95 185 105" stroke="${muscleAccent}" stroke-width="3" fill="none" stroke-dasharray="3 3"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Bisagra de Cadera: Espalda Neutra y Femorales Tensos</text>
         </svg>`;
 
-      case 'armnerve':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <circle cx="90" cy="55" r="12" fill="${bodyTone}"/>
-          <!-- Tronco -->
-          <line x1="90" y1="67" x2="90" y2="135" stroke="${bodyTone}" stroke-width="9" stroke-linecap="round"/>
-          <!-- Cabeza inclinándose al lado opuesto -->
-          <path d="M80 50 Q70 45 75 35" stroke="${nerveTone}" stroke-width="2" fill="none"/>
-          <!-- Brazo extendido lateral en 90° con codo y muñeca en extensión -->
-          <line x1="90" y1="78" x2="145" y2="82" stroke="${bodyTone}" stroke-width="6" stroke-linecap="round"/>
-          <line x1="145" y1="82" x2="195" y2="85" stroke="${accentTone}" stroke-width="6" stroke-linecap="round"/>
-          <!-- Mano en bandeja (dorsiflexión) -->
-          <line x1="195" y1="85" x2="202" y2="70" stroke="${nerveTone}" stroke-width="5" stroke-linecap="round"/>
-          <!-- Trayecto neural -->
-          <path d="M90 65 Q145 75 200 80" stroke="${nerveTone}" stroke-width="2" stroke-dasharray="3 3" fill="none"/>
-          <text x="120" y="26" fill="#c084fc" font-size="11" text-anchor="middle">Neurodinámica Hombro/Brazo · Nervio Mediano</text>
-        </svg>`;
-
-      case 'neck':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <!-- Torso base -->
-          <path d="M80 150 C90 120 110 110 120 110 C130 110 150 120 160 150 Z" fill="#1e293b" stroke="${bodyTone}" stroke-width="3"/>
-          <!-- Cuello -->
-          <line x1="120" y1="110" x2="120" y2="75" stroke="${bodyTone}" stroke-width="12" stroke-linecap="round"/>
+      // SILUETA HUMANA: FLEXIONES DE BRAZO / PECHO (PUSH-UPS)
+      case 'pushup-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="165" x2="260" y2="165" stroke="#334155" stroke-width="2"/>
           <!-- Cabeza alineada -->
-          <circle cx="120" cy="55" r="18" fill="${bodyTone}"/>
-          <!-- Flechas de doble sentido de retracción axial -->
-          <path d="M120 30 L120 15" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
-          <path d="M115 20 L120 12 L125 20" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M142 55 L158 55" stroke="${accentTone}" stroke-width="3" stroke-linecap="round"/>
-          <!-- Papada suave / doble mentón -->
-          <circle cx="112" cy="62" r="3" fill="${jointTone}"/>
-          <text x="120" y="170" fill="#94a3b8" font-size="11" text-anchor="middle">Crecimiento axial de coronilla · Mentón neutro</text>
+          <circle cx="68" cy="115" r="9" fill="${silActive}"/>
+          <!-- Cuerpo completo en plancha recta como tabla -->
+          <path d="M75 118 C115 125 165 135 220 152 L218 158 C162 142 112 132 73 125 Z" fill="${silActive}"/>
+          <!-- Pectoral y Tríceps activos (codo a 45°) -->
+          <path d="M85 122 C92 135 98 148 94 165 L86 165 C88 150 82 138 78 126 Z" fill="${muscleAccent}"/>
+          <!-- Pies apoyados en puntas -->
+          <circle cx="220" cy="158" r="4" fill="${silActive}"/>
+          <!-- Flecha de empuje vertical concéntrico -->
+          <path d="M90 148 L90 125" stroke="${muscleAccent}" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="90,120 86,130 94,130" fill="${muscleAccent}"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Flexión Humana: Cuerpo en Bloque y Codos a 45°</text>
         </svg>`;
 
-      case 'row':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <line x1="20" y1="160" x2="220" y2="160" stroke="#334155" stroke-width="2"/>
-          <circle cx="80" cy="55" r="10" fill="${bodyTone}"/>
-          <!-- Tronco inclinado a 45° con columna recta -->
-          <line x1="80" y1="65" x2="130" y2="105" stroke="${bodyTone}" stroke-width="8" stroke-linecap="round"/>
-          <!-- Piernas semiflexionadas -->
-          <line x1="130" y1="105" x2="140" y2="135" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <line x1="140" y1="135" x2="135" y2="160" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <!-- Brazo jalando hacia cadera con codo pegado -->
-          <line x1="100" y1="80" x2="120" y2="65" stroke="${accentTone}" stroke-width="6" stroke-linecap="round"/>
-          <line x1="120" y1="65" x2="115" y2="90" stroke="${accentTone}" stroke-width="6" stroke-linecap="round"/>
-          <!-- Carga/mochila -->
-          <rect x="105" y="85" width="20" height="20" rx="4" fill="#64748b"/>
-          <text x="120" y="26" fill="#38bdf8" font-size="11" text-anchor="middle">Remo Espalda · Conduce con los codos</text>
+      // SILUETA HUMANA: FONDOS DE TRÍCEPS EN SILLA
+      case 'dips-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Silla de soporte -->
+          <rect x="70" y="115" width="45" height="10" rx="2" fill="#475569"/>
+          <line x1="72" y1="125" x2="72" y2="180" stroke="#475569" stroke-width="4"/>
+          <line x1="110" y1="125" x2="110" y2="180" stroke="#475569" stroke-width="4"/>
+          <line x1="72" y1="80" x2="72" y2="125" stroke="#475569" stroke-width="4"/>
+          <!-- Silueta en fondo (tríceps 90°) -->
+          <circle cx="118" cy="72" r="10" fill="${silActive}"/>
+          <path d="M112 85 C116 85 124 85 126 88 C128 102 128 122 126 142 C122 144 116 144 112 142 C110 122 110 102 112 85 Z" fill="${silActive}"/>
+          <!-- Brazo flexionado a 90° con manos en asiento -->
+          <path d="M114 90 C105 92 98 100 100 110 C102 115 106 115 108 115 L108 120 C100 120 94 115 92 108 C90 96 100 86 112 84 Z" fill="${muscleAccent}"/>
+          <!-- Piernas apoyadas adelante -->
+          <path d="M126 138 C145 140 165 142 178 145 C180 155 180 170 178 178 L170 178 C172 170 172 156 170 148 C158 146 142 144 126 142 Z" fill="${silActive}"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Fondos: Espalda Pegada a Silla y Tríceps a 90°</text>
         </svg>`;
 
-      case 'forearm':
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <!-- Mesa o muslo de apoyo -->
-          <rect x="40" y="95" width="160" height="12" rx="4" fill="#334155"/>
-          <!-- Antebrazo apoyado plano -->
-          <rect x="50" y="80" width="90" height="14" rx="7" fill="${bodyTone}"/>
-          <!-- Muñeca al borde y mano flexionando hacia arriba -->
-          <circle cx="140" cy="87" r="5" fill="${jointTone}"/>
-          <path d="M140 87 L175 65" stroke="${accentTone}" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="175" cy="65" r="9" fill="#f59e0b"/>
-          <!-- Flecha de flexión/extensión de muñeca -->
-          <path d="M165 95 C180 90 185 75 180 60" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <text x="120" y="26" fill="#94a3b8" font-size="11" text-anchor="middle">Muñeca aislada · Antebrazo completamente apoyado</text>
+      // SILUETA HUMANA: CURL DE BÍCEPS CON MOCHILA / PESO
+      case 'biceps-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Atleta de pie erguido -->
+          <circle cx="125" cy="48" r="11" fill="${silActive}"/>
+          <path d="M118 62 C125 60 135 60 140 64 C144 76 144 105 142 125 C138 127 125 127 120 125 C118 105 118 76 118 62 Z" fill="${silActive}"/>
+          <!-- Piernas firmes -->
+          <path d="M122 125 L120 178 L128 178 L130 125 Z" fill="${silActive}"/>
+          <path d="M132 125 L134 178 L142 178 L140 125 Z" fill="${silActive}"/>
+          <!-- Brazo flexionando codo pegado al torso -->
+          <path d="M135 70 C138 82 138 96 136 102 C134 104 128 104 128 100 C130 92 130 80 128 72 Z" fill="${silActive}"/>
+          <!-- Antebrazo y Bíceps en contracción máxima -->
+          <path d="M136 102 C145 92 152 78 152 70 C156 70 158 74 156 82 C150 94 142 106 136 108 Z" fill="${muscleAccent}"/>
+          <!-- Carga / Botella en mano -->
+          <rect x="146" y="58" width="16" height="20" rx="3" fill="#64748b"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Curl Anatómico: Codos Pegados y Aislamiento de Bíceps</text>
         </svg>`;
 
+      // SILUETA HUMANA: SUPERMAN EN SUELO
+      case 'superman-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="165" x2="260" y2="165" stroke="#334155" stroke-width="2"/>
+          <!-- Pelvis apoyada en suelo, arco suave hacia arriba en ambos extremos -->
+          <path d="M60 115 C85 125 125 145 145 148 C165 145 205 125 230 115 C228 122 195 138 145 152 C95 138 62 122 60 115 Z" fill="${muscleAccent}"/>
+          <!-- Cabeza neutra despegada del suelo -->
+          <circle cx="80" cy="118" r="9" fill="${silActive}"/>
+          <!-- Brazos extendidos en Y hacia adelante -->
+          <path d="M88 122 C75 116 60 112 45 108 C46 114 62 120 78 126 Z" fill="${silActive}"/>
+          <!-- Piernas extendidas despegadas atrás -->
+          <path d="M175 138 C195 132 220 122 245 110 C242 118 215 132 185 142 Z" fill="${silActive}"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Superman: Elongación Axial de Espalda sin Hiperextender</text>
+        </svg>`;
+
+      // SILUETA HUMANA: NEURODINÁMICO SLUMP CIÁTICO
+      case 'slump-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <!-- Silla de exploración -->
+          <rect x="80" y="115" width="55" height="10" rx="2" fill="#475569"/>
+          <line x1="85" y1="125" x2="85" y2="180" stroke="#475569" stroke-width="4"/>
+          <line x1="130" y1="125" x2="130" y2="180" stroke="#475569" stroke-width="4"/>
+          <!-- Persona sentada con cifosis / slump redondeado -->
+          <circle cx="102" cy="72" r="10" fill="${nervePurple}"/>
+          <!-- Columna relajada en flexión suave -->
+          <path d="M98 84 C92 98 94 112 108 122 C116 122 130 122 142 122" stroke="${silActive}" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <!-- Pierna extendiéndose en deslizamiento -->
+          <path d="M140 122 C165 125 195 130 220 132" stroke="${muscleAccent}" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <!-- Pie con dorsiflexión suave -->
+          <path d="M220 132 L225 118" stroke="${nervePurple}" stroke-width="6" stroke-linecap="round"/>
+          <!-- Línea de recorrido del Nervio Ciático -->
+          <path d="M102 85 Q115 110 145 122 T220 132" stroke="${nervePurple}" stroke-width="3" stroke-dasharray="4 4" fill="none"/>
+          <text x="140" y="28" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle">Slump Ciático: Deslizamiento Neural en Balancín</text>
+        </svg>`;
+
+      // SILUETA HUMANA: NEURODINÁMICA DE BRAZO / NERVIO MEDIANO
+      case 'nerve-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <!-- Cabeza inclinada contralateralmente con rostro anatómico -->
+          <circle cx="95" cy="56" r="11" fill="${nervePurple}"/>
+          <path d="M90 68 C96 66 104 66 108 70 C112 85 112 115 110 140 L98 140 C94 115 92 85 90 68 Z" fill="${silActive}"/>
+          <path d="M98 140 L96 180 L104 180 L106 140 Z" fill="${silActive}"/>
+          <!-- Brazo en abducción 90° con codo extendido y muñeca en bandeja -->
+          <path d="M108 75 C135 78 170 80 210 82" stroke="${silActive}" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <!-- Mano extendida (posición camarero) -->
+          <path d="M210 82 L218 68" stroke="${nervePurple}" stroke-width="6" stroke-linecap="round"/>
+          <!-- Recorrido del Nervio Mediano desde C5 hasta dedos -->
+          <path d="M95 64 Q145 74 212 80" stroke="${nervePurple}" stroke-width="3" stroke-dasharray="4 4" fill="none"/>
+          <text x="140" y="28" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle">Nervio Mediano: Abducción de Brazo con Cuello Coordinado</text>
+        </svg>`;
+
+      // SILUETA HUMANA: CUELLO ISOMÉTRICO / ALINEACIÓN CERVICAL
+      case 'neck-human':
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <!-- Busto anatómico humano -->
+          <path d="M80 180 C90 145 115 130 140 130 C165 130 190 145 200 180 Z" fill="${silDark}" stroke="${silActive}" stroke-width="2"/>
+          <!-- Cuello fuerte y alargado -->
+          <path d="M132 130 L132 85 L148 85 L148 130 Z" fill="${silActive}"/>
+          <!-- Cabeza humana de perfil/frente neutra -->
+          <circle cx="140" cy="62" r="18" fill="${silActive}"/>
+          <!-- Mano aplicando resistencia isométrica controlada -->
+          <path d="M165 62 L158 62" stroke="${muscleAccent}" stroke-width="6" stroke-linecap="round"/>
+          <!-- Flechas de vector de fuerza contrapuesta equilibrada -->
+          <path d="M185 62 L168 62" stroke="${muscleAccent}" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="163,62 173,57 173,67" fill="${muscleAccent}"/>
+          <path d="M120 62 L132 62" stroke="${silActive}" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="137,62 127,57 127,67" fill="${silActive}"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Isométrico Cervical: Fuerza Contrapuesta sin Movimiento</text>
+        </svg>`;
+
+      // SILUETA HUMANA POR DEFECTO: POSTURA ANATÓMICA ERGUIDA
       default:
-        return `<svg viewBox="0 0 240 180" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
-          <rect width="240" height="180" fill="${bg}" rx="12"/>
-          <circle cx="120" cy="50" r="14" fill="${bodyTone}"/>
-          <line x1="120" y1="65" x2="120" y2="125" stroke="${bodyTone}" stroke-width="8" stroke-linecap="round"/>
-          <line x1="120" y1="80" x2="80" y2="110" stroke="${bodyTone}" stroke-width="6" stroke-linecap="round"/>
-          <line x1="120" y1="80" x2="160" y2="110" stroke="${bodyTone}" stroke-width="6" stroke-linecap="round"/>
-          <line x1="120" y1="125" x2="95" y2="165" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <line x1="120" y1="125" x2="145" y2="165" stroke="${bodyTone}" stroke-width="7" stroke-linecap="round"/>
-          <text x="120" y="26" fill="#94a3b8" font-size="11" text-anchor="middle">Movimiento Controlado y Fluido</text>
+        return `<svg viewBox="0 0 280 200" class="ex-svg-art" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="200" fill="${bg}" rx="12"/>
+          <line x1="20" y1="180" x2="260" y2="180" stroke="#334155" stroke-width="2"/>
+          <circle cx="140" cy="48" r="12" fill="${silActive}"/>
+          <path d="M130 63 C138 60 148 60 152 64 C158 78 156 112 152 130 C146 132 134 132 128 130 C124 112 124 78 130 63 Z" fill="${silActive}"/>
+          <path d="M132 130 L130 180 L138 180 L140 130 Z" fill="${silActive}"/>
+          <path d="M142 130 L144 180 L152 180 L150 130 Z" fill="${silActive}"/>
+          <path d="M126 66 L112 110" stroke="${silActive}" stroke-width="7" stroke-linecap="round"/>
+          <path d="M154 66 L168 110" stroke="${silActive}" stroke-width="7" stroke-linecap="round"/>
+          <text x="140" y="28" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle">Figura Humana: Alineación Postural y Control Motor</text>
         </svg>`;
     }
   }
@@ -271,7 +349,8 @@
       level: 'Básico a Intermedio',
       dose: '3 series × 12-15 repeticiones',
       rest: '45-60 segundos',
-      svgKind: 'squat',
+      image: 'assets/exercises-web/supported-squat-male-v2.jpg',
+      svgKind: 'squat-human',
       targetMuscles: 'Cuádriceps, glúteos mayor y medio, aductores y core',
       phaseInicio: 'Párate erguido con los pies separados al ancho de los hombros o ligeramente más amplios, con las puntas de los pies rotadas 15° hacia afuera. Si usas mochila, abróchala al pecho para mantener el centro de gravedad pegado al cuerpo. Activa el abdomen inhalando hondo y ensanchando las costillas, con la mirada al frente y la columna larga.',
       phaseEjecucion: 'Inicia el movimiento desbloqueando simultáneamente caderas y rodillas. Desciende como si fueras a sentarte en una silla baja, llevando las caderas hacia atrás y abajo durante 3 segundos. Mantén el pecho orgulloso y las rodillas apuntando exactamente en la misma dirección que el segundo dedo del pie. Desciende hasta que los muslos queden al menos paralelos al suelo (o según tu movilidad sin redondear la espalda).',
@@ -286,7 +365,7 @@
       level: 'Intermedio',
       dose: '3 series × 8-10 reps por pierna',
       rest: '45 segundos',
-      svgKind: 'lunge',
+      svgKind: 'lunge-human',
       targetMuscles: 'Glúteos, cuádriceps, isquiotibiales y estabilizadores de cadera',
       phaseInicio: 'Colócate de pie, con los pies paralelos al ancho de las caderas, manos en la cintura o sosteniendo una mochila al frente. El peso se concentra firmemente en la pierna delantera. Toma aire y activa el cinturón abdominal.',
       phaseEjecucion: 'Da un paso amplio y suave hacia atrás con una pierna, apoyando únicamente la bola del pie trasero. Flexiona ambas rodillas en ángulo de 90° descendiendo en vertical. La rodilla delantera debe permanecer alineada con el tobillo (sin proyectarse exageradamente más allá de los dedos) y la rodilla trasera desciende hasta quedar a 2-3 cm del suelo.',
@@ -301,7 +380,7 @@
       level: 'Intermedio',
       dose: '3 series × 10-12 repeticiones',
       rest: '60 segundos',
-      svgKind: 'row',
+      svgKind: 'deadlift-human',
       targetMuscles: 'Isquiotibiales (femorales), glúteo mayor, erectores espinales',
       phaseInicio: 'Párate de pie con los pies separados al ancho de las caderas. Sostén las asas de la mochila o mancuernas pegadas a los muslos con ambas manos. Hombros hacia atrás y abajo (retracción escapular activa), pecho alto, y rodillas con una flexión muy ligera (semiflexionadas pero bloqueadas en ese ángulo fijo).',
       phaseEjecucion: 'Inhala y empuja la pelvis directamente hacia atrás como si quisieras tocar una pared detrás de ti con los glúteos. El tronco desciende por flexión de cadera (bisagra), deslizando la carga pegadísima a los muslos y espinillas. Mantén la espalda como una tabla recta. Siente la tensión elástica y el estiramiento en la parte posterior de los muslos hasta justo debajo de la rodilla.',
@@ -310,17 +389,18 @@
     },
     {
       id: 'norm-pierna-gemelos',
-      title: 'Elevación de Talones a Dos Pies o Unipodal',
+      title: 'Elevación de Talones para Gemelos (Calf Raises)',
       area: 'piernas',
       purpose: 'normal',
       level: 'Básico a Intermedio',
       dose: '3 series × 15-20 repeticiones',
       rest: '30 segundos',
-      svgKind: 'squat',
+      image: 'assets/exercises-web/leg-raise.jpg',
+      svgKind: 'squat-human',
       targetMuscles: 'Gastrocnemios (gemelos), sóleo y tendón de Aquiles',
-      phaseInicio: 'De pie sobre el borde de un escalón firme o en el suelo plano, pies alineados al frente. Coloca las yemas de los dedos sobre una pared o respaldo de silla únicamente para equilibrio ligero. Columna erguida.',
-      phaseEjecucion: 'Empuja con fuerza a través de la bola de los dedos del pie, elevando los talones lo más alto posible de forma vertical y explosiva en 1 segundo. Mantén la contracción en el punto más alto durante 2 segundos completos apretando las pantorrillas.',
-      phaseFinal: 'Baja los talones de manera lenta y controlada en 3 segundos hasta sentir un estiramiento suave y seguro en el tendón de Aquiles. Detén el movimiento antes de rebotar y prepárate para la siguiente repetición.',
+      phaseInicio: 'De pie sobre el suelo plano o borde de un escalón firme, pies paralelos al ancho de caderas. Apoya las yemas de los dedos en una pared o respaldo de silla únicamente para equilibrio leve.',
+      phaseEjecucion: 'Empuja con la bola de los dedos del pie, elevando los talones lo más alto posible de forma vertical y enérgica en 1 segundo. Mantén la contracción máxima arriba durante 2 segundos completos apretando las pantorrillas.',
+      phaseFinal: 'Baja los talones de manera lenta y resistida en 3 segundos hasta sentir un estiramiento suave y seguro en el tendón de Aquiles. Detén el movimiento antes de rebotar y repite.',
       erroresComunes: 'Rebotar rápidamente sin control excéntrico, doblar las rodillas para ayudarse, o desviar el peso hacia los bordes externos del pie en lugar de la base del dedo gordo.'
     },
 
@@ -335,7 +415,7 @@
       level: 'Intermedio (adaptable en mesa/pared)',
       dose: '3 series × 8-12 repeticiones',
       rest: '60 segundos',
-      svgKind: 'default',
+      svgKind: 'pushup-human',
       targetMuscles: 'Pectoral mayor, tríceps braquial, deltoides anterior y core',
       phaseInicio: 'Apoya las manos en el suelo (o sobre una mesa firme para versión más accesible) a un ancho ligeramente mayor que los hombros. Piernas extendidas atrás con los pies juntos apoyados en las puntas. Forma una línea recta impecable desde los tobillos hasta la coronilla, contrayendo glúteos y abdomen.',
       phaseEjecucion: 'Inhala y flexiona los codos en un ángulo de aproximadamente 45° con respecto al torso (forma de flecha, nunca de T abierta). Desciende el pecho en bloque durante 2-3 segundos hasta que quede a 3 cm del suelo o de la mesa. Los hombros se mantienen lejos de las orejas.',
@@ -350,7 +430,7 @@
       level: 'Intermedio',
       dose: '3 series × 10-12 repeticiones',
       rest: '45 segundos',
-      svgKind: 'default',
+      svgKind: 'dips-human',
       targetMuscles: 'Tríceps braquial (las tres cabezas) y estabilizadores escapulares',
       phaseInicio: 'Siéntate en el borde de una silla muy firme y estable. Apoya las palmas de las manos junto a tus caderas con los dedos orientados hacia el frente. Desplaza los glúteos hacia adelante fuera del asiento. Piernas dobladas a 90° (más fácil) o estiradas al frente (más avanzado). Hombros deprimidos y espalda pegada a la silla.',
       phaseEjecucion: 'Inhala y flexiona los codos hacia atrás en línea recta (nunca abiertos a los lados) bajando los glúteos en vertical rozando el borde de la silla. Desciende hasta que los codos formen un ángulo de 90° (no más profundo para proteger la cápsula anterior del hombro).',
@@ -365,7 +445,7 @@
       level: 'Básico',
       dose: '3 series × 12-15 repeticiones',
       rest: '45 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'biceps-human',
       targetMuscles: 'Bíceps braquial, braquial anterior y braquiorradial',
       phaseInicio: 'Párate erguido con los pies al ancho de hombros, rodillas relajadas. Sostén las asas de la mochila o botellas de agua con las palmas mirando hacia el frente (agarre supino). Codos pegados a los costados del tórax y hombros hacia atrás.',
       phaseEjecucion: 'Inhala preparándote y, al exhalar, flexiona los codos elevando la carga hacia el pecho. Los codos deben permanecer como un eje fijo pegados a las costillas sin adelantarse ni balancearse. Aprieta voluntariamente los bíceps en el punto de máxima contracción durante 1 segundo.',
@@ -380,7 +460,7 @@
       level: 'Intermedio',
       dose: '3 series × 12 repeticiones',
       rest: '45 segundos',
-      svgKind: 'default',
+      svgKind: 'dips-human',
       targetMuscles: 'Porción larga del tríceps braquial',
       phaseInicio: 'Sentado en silla con respaldo recto o de pie con abdomen firme. Sostén una botella de agua o carga moderada con ambas manos por encima de la cabeza, con los brazos estirados verticalmente. Codos orientados hacia el frente, no excesivamente abiertos.',
       phaseEjecucion: 'Inhala y flexiona únicamente los codos, permitiendo que la carga descienda lentamente por detrás de la nuca. Los brazos (húmeros) se mantienen lo más verticales posible. Desciende hasta sentir un estiramiento agradable en la parte posterior del brazo.',
@@ -399,7 +479,8 @@
       level: 'Básico',
       dose: '3 series × 15 repeticiones',
       rest: '30 segundos',
-      svgKind: 'forearm',
+      image: 'assets/exercises-web/wrist-stretch-v2.jpg',
+      svgKind: 'nerve-human',
       targetMuscles: 'Flexor radial y cubital del carpo, flexores profundos de los dedos',
       phaseInicio: 'Siéntate y apoya el antebrazo sobre una mesa o sobre tu propio muslo, de modo que la muñeca y la mano queden colgando fuera del borde con la palma orientada hacia arriba (supinación). Sostén una botella pequeña de agua (0.5 L) o peso liviano.',
       phaseEjecucion: 'Permite que la carga ruede suavemente hacia las yemas de los dedos, extendiendo la muñeca hacia abajo con control. A continuación, cierra los dedos y flexiona la muñeca hacia arriba lo más alto que permita tu rango sin despegar el antebrazo del apoyo.',
@@ -414,7 +495,8 @@
       level: 'Básico',
       dose: '3 series × 12-15 repeticiones',
       rest: '30 segundos',
-      svgKind: 'forearm',
+      image: 'assets/exercises-web/wrist-stretch-v2.jpg',
+      svgKind: 'nerve-human',
       targetMuscles: 'Extensores radiales y cubital del carpo, extensor común de los dedos',
       phaseInicio: 'Sentado con el antebrazo completamente apoyado en la mesa o muslo, pero esta vez con la palma orientada hacia abajo (pronación). La mano cuelga por el borde sosteniendo una carga muy liviana.',
       phaseEjecucion: 'Comienza con la muñeca flexionada hacia el suelo. Exhala y eleva el dorso de la mano hacia el techo extendiendo la muñeca al máximo de tu rango cómodo. Mantén el antebrazo inmóvil y plano sobre la superficie.',
@@ -429,7 +511,8 @@
       level: 'Básico a Terapéutico',
       dose: '2-3 series × 10 giros por lado',
       rest: '30 segundos',
-      svgKind: 'forearm',
+      image: 'assets/exercises-web/wrist-stretch-v2.jpg',
+      svgKind: 'nerve-human',
       targetMuscles: 'Pronador redondo, pronador cuadrado, supinador corto y bíceps',
       phaseInicio: 'Sentado con el codo flexionado a 90° y pegado a la cintura. Toma una botella de agua por la base (de modo que el cuello y la tapa queden hacia arriba como palanca asimétrica) o un palo corto.',
       phaseEjecucion: 'Gira lentamente el antebrazo hacia adentro hasta que la palma mire al suelo (pronación completa controlada en 2 segundos). Luego, gira hacia afuera de manera inversa hasta que la palma mire hacia el techo (supinación completa).',
@@ -444,7 +527,8 @@
       level: 'Básico',
       dose: '3 series × 15-20 segundos de apriete',
       rest: '30 segundos',
-      svgKind: 'forearm',
+      image: 'assets/exercises-web/wrist-stretch-v2.jpg',
+      svgKind: 'nerve-human',
       targetMuscles: 'Músculos flexores de los dedos, lumbricales e interóseos',
       phaseInicio: 'De pie o sentado con postura erguida. Toma una toalla de manos enrollada firmemente o una pelota blanda de gomaespuma/tenis con la mano completa.',
       phaseEjecucion: 'Aprieta con fuerza progresiva la toalla involucrando los cuatro dedos y el pulgar, pasando del 50% al 80-90% de tu fuerza máxima. Mantén la tensión constante respirando con tranquilidad por la nariz.',
@@ -463,7 +547,7 @@
       level: 'Básico',
       dose: '3 series × 8-10 segundos',
       rest: '20 segundos',
-      svgKind: 'neck',
+      svgKind: 'neck-human',
       targetMuscles: 'Esternocleidomastoideo, recto anterior de la cabeza y flexores profundos',
       phaseInicio: 'Siéntate en una silla firme con la espalda apoyada, hombros sueltos y mirada al horizonte. Coloca las palmas de ambas manos superpuestas contra tu frente. La cabeza debe estar perfectamente centrada, con el mentón neutro (ni levantado ni pegado al pecho).',
       phaseEjecucion: 'Empuja suavemente con la cabeza hacia adelante contra las manos, mientras que con las manos ejerces exactamente la misma fuerza en sentido opuesto. No debe haber ningún movimiento visible (contracción isométrica pura al 30-50% de intensidad). Respira de forma continua.',
@@ -478,7 +562,7 @@
       level: 'Básico',
       dose: '3 series × 8-10 segundos',
       rest: '20 segundos',
-      svgKind: 'neck',
+      svgKind: 'neck-human',
       targetMuscles: 'Trapecio superior, esplenio de la cabeza, erectores cervicales',
       phaseInicio: 'Sentado erguido, entrelaza los dedos de las manos y apóyalos en la parte posterior de la cabeza (nuca, por encima de la unión cervical). Codos abiertos naturalmente. Columna alargada como si tiraran de tu coronilla hacia arriba.',
       phaseEjecucion: 'Empuja la nuca suavemente hacia atrás contra tus manos mientras las manos resisten con firmeza idéntica. La fuerza debe nacer de la base del cráneo, manteniendo el mentón recogido suavemente (como haciendo una pequeña papada).',
@@ -493,7 +577,8 @@
       level: 'Básico',
       dose: '3 series × 8-10 s por lado',
       rest: '20 segundos',
-      svgKind: 'neck',
+      image: 'assets/exercises-web/neck-stretch-male-v2.jpg',
+      svgKind: 'neck-human',
       targetMuscles: 'Escalenos anterior/medio, esternocleidomastoideo lateral',
       phaseInicio: 'Sentado con hombros relajados. Apoya la palma de la mano derecha plana sobre el lado derecho de la cabeza, justo encima de la oreja (en la sien/parietal). El hombro opuesto permanece completamente abajo.',
       phaseEjecucion: 'Intenta inclinar la oreja derecha hacia el hombro derecho mientras tu mano derecha bloquea todo movimiento. Mantén una contracción isométrica limpia y sin balanceo durante 8-10 segundos respirando con calma.',
@@ -508,7 +593,8 @@
       level: 'Básico a Terapéutico',
       dose: '2-3 series × 10 repeticiones de 3s',
       rest: '30 segundos',
-      svgKind: 'neck',
+      image: 'assets/exercises-web/neck-stretch-male-v2.jpg',
+      svgKind: 'neck-human',
       targetMuscles: 'Largo del cuello, largo de la cabeza, recto anterior menor',
       phaseInicio: 'Acuéstate boca arriba sobre una colchoneta (o sentado con la espalda y cabeza apoyadas contra una pared). Columna neutra, rodillas dobladas con pies en el suelo. Respira tranquilo.',
       phaseEjecucion: 'Sin levantar la cabeza del suelo ni tensar los músculos grandes de la garganta, desliza suavemente la barbilla hacia atrás y abajo como asintiendo levemente ("doble mentón" o papada sutil). Siente cómo la parte posterior del cuello se alarga y aplana ligeramente contra la superficie.',
@@ -527,7 +613,7 @@
       level: 'Intermedio',
       dose: '3 series × 12 repeticiones',
       rest: '60 segundos',
-      svgKind: 'row',
+      svgKind: 'row-human',
       targetMuscles: 'Dorsal ancho, romboides, trapecio medio e inferior, deltoides posterior',
       phaseInicio: 'Párate de pie sosteniendo una mochila pesada por sus asas. Flexiona las rodillas ligeramente e inclina el tronco hacia adelante desde las caderas en un ángulo de 45° a 60°. La espalda debe estar completamente recta, el abdomen firme y los brazos extendidos hacia el suelo con la carga.',
       phaseEjecucion: 'Inhala y, al exhalar, tira de los codos hacia atrás y hacia arriba pegados a los costados, llevando la mochila hacia la parte baja de la caja torácica o el ombligo. Concéntrate en juntar las escápulas (omóplatos) al final del recorrido.',
@@ -542,7 +628,7 @@
       level: 'Intermedio a Avanzado',
       dose: '3 series × 8-10 repeticiones',
       rest: '60 segundos',
-      svgKind: 'row',
+      svgKind: 'row-human',
       targetMuscles: 'Dorsal ancho, romboides, trapecio, bíceps y estabilidad del core',
       phaseInicio: 'Asegúrate de que la mesa sea extremadamente firme y pesada. Acuéstate debajo de la mesa mirando hacia arriba, con el pecho directamente debajo del borde. Sujeta el borde de la mesa con ambas manos a una distancia cómoda. Apoya los talones en el suelo con el cuerpo en línea recta como una tabla invertida.',
       phaseEjecucion: 'Exhala, aprieta glúteos y abdomen, y jala con los codos hacia atrás para elevar el pecho hacia la parte inferior de la mesa. Mantén el cuerpo rígido como una tabla desde la cabeza hasta los talones.',
@@ -557,7 +643,7 @@
       level: 'Básico a Intermedio',
       dose: '3 series × 10 reps sostenidas de 3s',
       rest: '45 segundos',
-      svgKind: 'default',
+      svgKind: 'superman-human',
       targetMuscles: 'Erectores espinales lumbares y dorsales, glúteos y deltoides posterior',
       phaseInicio: 'Acuéstate boca abajo sobre una colchoneta, con los brazos extendidos hacia adelante (en forma de "Y") y las piernas estiradas al ancho de caderas. Apoya la frente en el suelo con el cuello largo y relajado.',
       phaseEjecucion: 'Inhala activando suavemente el ombligo hacia la columna para proteger las vértebras lumbares. Al exhalar, eleva simultáneamente el pecho, los brazos y las piernas a unos 10-15 cm del suelo. El movimiento debe ser de elongación (crecer hacia adelante y hacia atrás), no de hiperextensión brusca.',
@@ -572,7 +658,7 @@
       level: 'Básico a Postural',
       dose: '3 series × 10-12 repeticiones',
       rest: '30 segundos',
-      svgKind: 'default',
+      svgKind: 'neck-human',
       targetMuscles: 'Trapecio inferior, romboides, serrato anterior y rotadores externos',
       phaseInicio: 'Apóyate de pie con la espalda contra una pared lisa, con los pies a 15-20 cm separados de la base. La cabeza, la espalda alta, la zona lumbar y los glúteos deben mantener contacto con la pared. Coloca los brazos en posición de "W" con codos y dorso de las manos tocando la pared.',
       phaseEjecucion: 'Sin perder el contacto de la espalda ni de los brazos con la pared, desliza los brazos lentamente hacia arriba formando una "Y" sobre tu cabeza mientras inhalas. Siente cómo se activan y deslizan los omóplatos.',
@@ -591,7 +677,7 @@
       level: 'Terapéutico Específico',
       dose: '2-3 series × 8-10 repeticiones suaves',
       rest: '30 segundos',
-      svgKind: 'slump',
+      svgKind: 'slump-human',
       targetMuscles: 'Sistema nervioso periférico: Raíces L4-S3, nervio ciático y tibial',
       phaseInicio: 'Siéntate en el borde de una mesa o silla firme con los muslos apoyados y las piernas colgando libres. Coloca las manos entrelazadas detrás de la espalda baja. Deja caer el tronco en una flexión suave y redondeada (postura "slump"), manteniendo la cabeza erguida mirando al frente.',
       phaseEjecucion: 'El movimiento es un deslizamiento coordinado tipo "balancín" (slider): mientras extiendes una rodilla hacia adelante levantando la espinilla y flexionas el tobillo hacia ti (dorsiflexión), extiende el cuello mirando ligeramente hacia arriba. En este instante el nervio se desliza hacia la cabeza sin aumentar la tensión global.',
@@ -606,7 +692,7 @@
       level: 'Terapéutico Específico',
       dose: '2 series × 8 repeticiones por lado',
       rest: '30 segundos',
-      svgKind: 'default',
+      svgKind: 'slump-human',
       targetMuscles: 'Raíces L2-L4, nervio femoral / crural y nervio safeno',
       phaseInicio: 'Acuéstate de lado sobre una colchoneta en posición fetal suave (pierna de abajo flexionada a 90° para estabilizar la pelvis). La cabeza descansa cómodamente sobre una almohada o tu brazo inferior.',
       phaseEjecucion: 'Toma el tobillo de la pierna superior con la mano del mismo lado. Mientras llevas suavemente la rodilla hacia atrás en ligera extensión de cadera, flexiona la cabeza hacia adelante acercando la barbilla al pecho. Luego, cuando permitas que la rodilla vuelva adelante, extiende suavemente el cuello hacia atrás.',
@@ -621,7 +707,8 @@
       level: 'Básico Terapéutico',
       dose: '2 series × 12 repeticiones rítmicas',
       rest: '20 segundos',
-      svgKind: 'default',
+      image: 'assets/exercises-web/pelvic-tilt.jpg',
+      svgKind: 'slump-human',
       targetMuscles: 'Musculatura lumbo-pélvica, plexo lumbosacro y meninges lumbares',
       phaseInicio: 'Acuéstate boca arriba con las rodillas dobladas y las plantas de los pies bien apoyadas en el suelo al ancho de caderas. Brazos relajados a los lados del cuerpo, palmas hacia arriba.',
       phaseEjecucion: 'Inhala suavemente arqueando un poco la zona lumbar sin despegar los glúteos del piso (anteversión pélvica, pasa una pequeña mano de aire bajo la espalda). Al exhalar, rueda la pelvis hacia atrás aplanando completamente la zona lumbar contra el suelo (retroversión pélvica) contrayendo ligeramente el abdomen y suelo pélvico.',
@@ -640,7 +727,8 @@
       level: 'Básico a Intermedio',
       dose: '2-3 series × 8-10 reps por lado',
       rest: '30 segundos',
-      svgKind: 'openbook',
+      image: 'assets/exercises-web/open-book-male-v2.jpg',
+      svgKind: 'slump-human',
       targetMuscles: 'Columna torácica dorsal, nervios intercostales, caja torácica y pectoral',
       phaseInicio: 'Acuéstate de lado sobre una colchoneta, con caderas y rodillas flexionadas a 90° (para bloquear la zona lumbar e impedir que rote). Estira ambos brazos hacia adelante a la altura del pecho, con las palmas juntas como las tapas de un libro cerrado. Coloca un cojín bajo la cabeza.',
       phaseEjecucion: 'Inhala y eleva el brazo superior hacia el techo, siguiéndolo atentamente con la mirada y la cabeza. Continúa rotando el torso hacia el lado opuesto abriendo el brazo hacia el suelo trasero, mientras exhalas lentamente. Mantén las dos rodillas firmemente pegadas entre sí y al piso.',
@@ -655,7 +743,7 @@
       level: 'Básico',
       dose: '2 series × 10 ciclos fluidos',
       rest: '30 segundos',
-      svgKind: 'default',
+      svgKind: 'superman-human',
       targetMuscles: 'Meninges y médula espinal torácica, fascia toracolumbar',
       phaseInicio: 'Colócate en cuatro puntos de apoyo (cuadrupedia): manos debajo de los hombros y rodillas justo debajo de las caderas. Columna en posición neutra paralela al suelo. Dedos de las manos bien abiertos y cuello alineado.',
       phaseEjecucion: 'Inicia el movimiento desde la pelvis: exhala y empuja el ombligo hacia la columna, redondeando vértebra por vértebra la zona lumbar, luego la dorsal (empujando el suelo con las manos como un gato erizado) y finalmente deja caer la cabeza con la barbilla al pecho. Inhala y deshaz el movimiento en orden inverso: comienza inclinando la pelvis hacia adelante, abre el pecho y levanta la cabeza con suavidad.',
@@ -670,7 +758,7 @@
       level: 'Intermedio',
       dose: '2 series × 8 repeticiones por lado',
       rest: '30 segundos',
-      svgKind: 'openbook',
+      svgKind: 'superman-human',
       targetMuscles: 'Rotadores torácicos (multífidos, rotadores), romboides y nervios intercostales',
       phaseInicio: 'En cuadrupedia sobre la colchoneta. Coloca tu mano derecha detrás de la nuca con el codo abierto hacia afuera. La mano izquierda queda firmemente apoyada en el suelo bajo el hombro izquierdo.',
       phaseEjecucion: 'Inhala y gira el codo derecho hacia abajo y hacia adentro, apuntándolo hacia la muñeca izquierda ("enhebrar la aguja"). Al exhalar, empuja con la mano izquierda el suelo y gira el pecho y el codo derecho hacia el techo lo más alto posible sin mover las caderas.',
@@ -689,7 +777,7 @@
       level: 'Terapéutico Específico',
       dose: '2 series × 8 repeticiones lentas',
       rest: '30 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'nerve-human',
       targetMuscles: 'Raíces cervicales C5-T1, troncos del plexo braquial',
       phaseInicio: 'Párate o siéntate con la columna completamente recta y hombros relajados abajo. Separa el brazo derecho hacia el lado a unos 45°-60° del cuerpo, con la palma mirando al frente y el codo relajado.',
       phaseEjecucion: 'Al mismo tiempo que inclinas la cabeza llevando la oreja derecha hacia el hombro derecho (acercando el origen del nervio), extiende suavemente la muñeca derecha hacia atrás con los dedos apuntando al suelo (poniendo tensión distal). A continuación, inclina la cabeza hacia el hombro izquierdo mientras flexionas la muñeca hacia adelante.',
@@ -704,7 +792,8 @@
       level: 'Básico Terapéutico',
       dose: '2 series × 6-8 reps por lado',
       rest: '30 segundos',
-      svgKind: 'neck',
+      image: 'assets/exercises-web/neck-stretch-male-v2.jpg',
+      svgKind: 'neck-human',
       targetMuscles: 'Canal neural cervical, raíces foraminales, ligamento longitudinal posterior',
       phaseInicio: 'Sentado erguido en silla, manos descansando en los muslos. Imagina un hilo de oro que tira de la cúspide de tu cabeza hacia el techo para alargar al máximo el espacio intervertebral.',
       phaseEjecucion: 'Realiza una retracción cervical suave (chin-tuck / papada moderada). Manteniendo esa longitud axial, inclina la cabeza muy despacio 15°-20° hacia el hombro izquierdo, mientras dejas caer pesadamente el hombro derecho hacia el suelo sintiendo una descompresión suave en el lateral del cuello.',
@@ -723,7 +812,7 @@
       level: 'Terapéutico',
       dose: '2 series × 8-10 repeticiones',
       rest: '30 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'nerve-human',
       targetMuscles: 'Nervio mediano (recorrido anterior del hombro, codo, antebrazo y túnel carpiano)',
       phaseInicio: 'De pie o sentado. Eleva el brazo afectado lateralmente a 90° con respecto al cuerpo, con el codo doblado a 90° y la palma mirando hacia tu oreja (como sosteniendo una bandeja de camarero frente a ti). Hombro deprimido lejos de la oreja.',
       phaseEjecucion: 'Al extender el codo y la muñeca hacia el lateral (llevando los dedos hacia atrás en bandeja), inclina la cabeza hacia el mismo hombro activo. Luego, al doblar el codo y regresar la mano hacia la oreja, lleva la cabeza al centro o inclínala ligeramente al hombro opuesto.',
@@ -738,7 +827,7 @@
       level: 'Terapéutico',
       dose: '2 series × 8 repeticiones',
       rest: '30 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'nerve-human',
       targetMuscles: 'Nervio radial (cara posterior del brazo, codo externo y dorso de muñeca)',
       phaseInicio: 'De pie, con el brazo al costado del cuerpo. Baja activamente el hombro (depresión escapular) como si quisieras alcanzar el suelo con las yemas de los dedos.',
       phaseEjecucion: 'Gira todo el brazo hacia adentro (rotación interna y pronación máxima, de modo que el dorso de la mano quede mirando al frente). Flexiona la muñeca llevando la palma hacia atrás. Al mismo tiempo, inclina suavemente la cabeza hacia el mismo hombro para proteger el nervio.',
@@ -753,7 +842,7 @@
       level: 'Terapéutico',
       dose: '2 series × 8 repeticiones',
       rest: '30 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'nerve-human',
       targetMuscles: 'Nervio cubital (canal epitrocleo-olecraniano del codo, eminencia hipotenar y meñique)',
       phaseInicio: 'De pie o sentado. Coloca el brazo a 90° de abducción con el codo extendido. Junta la punta del pulgar con el índice formando un círculo ("OK"). Hombro abajo y relajado.',
       phaseEjecucion: 'Flexiona el codo y rota la muñeca llevando ese círculo de dedos directamente sobre tu ojo como si te pusieras unas gafas o un monóculo invertido. Los otros tres dedos quedan apoyados suavemente contra la mejilla o mandíbula. Mientras flexionas el codo, inclina la cabeza ligeramente hacia ese hombro.',
@@ -772,7 +861,8 @@
       level: 'Básico Terapéutico',
       dose: '5 repeticiones lentas por plano',
       rest: '15 segundos',
-      svgKind: 'neck',
+      image: 'assets/exercises-web/neck-stretch-male-v2.jpg',
+      svgKind: 'neck-human',
       targetMuscles: 'Articulaciones facetarias cervicales, musculatura suboccipital y cuello',
       phaseInicio: 'Sentado en silla con respaldo, pies apoyados en el suelo. Brazos descansando sobre los muslos, hombros caídos y columna alargada.',
       phaseEjecucion: 'Plano 1 (Rotación): Gira la cabeza suavemente hacia la derecha mirando sobre el hombro sin forzar, regresa al centro y gira a la izquierda. Plano 2 (Inclinación): Lleva la oreja derecha hacia el hombro derecho, centro, oreja izquierda al hombro izquierdo. Plano 3 (Flexo-extensión corta): Asiente llevando la barbilla al pecho y sube hasta mirar al frente (evitando hiperextender atrás).',
@@ -787,7 +877,7 @@
       level: 'Básico',
       dose: '2-3 series × 10 repeticiones de 3s',
       rest: '20 segundos',
-      svgKind: 'default',
+      svgKind: 'neck-human',
       targetMuscles: 'Romboides mayor/menor, trapecio medio e inferior, estabilizadores de escápula',
       phaseInicio: 'Sentado o de pie con los brazos relajados a los lados. Clavículas anchas y pecho abierto.',
       phaseEjecucion: 'Lleva los omóplatos primero hacia abajo (depresión) y luego hacia la columna vertebral como si quisieras sujetar un lápiz entre las paletillas. Mantén el cuello completamente libre de tensión.',
@@ -802,7 +892,8 @@
       level: 'Básico',
       dose: '3 series × 10-12 repeticiones',
       rest: '30 segundos',
-      svgKind: 'default',
+      image: 'assets/exercises-web/bridge-male-v2.jpg',
+      svgKind: 'squat-human',
       targetMuscles: 'Glúteo mayor, isquiotibiales proximales, transverso abdominal',
       phaseInicio: 'Acuéstate boca arriba con rodillas dobladas a 90° y los pies apoyados planos en el suelo al ancho de caderas. Brazos a los lados con las palmas hacia el suelo.',
       phaseEjecucion: 'Haz una retroversión pélvica aplanando la espalda contra el suelo. Exhala y empuja con los talones para levantar las caderas hasta formar una línea diagonal recta desde las rodillas hasta los hombros. Aprieta fuertemente los glúteos en la cúspide.',
@@ -817,7 +908,8 @@
       level: 'Intermedio Terapéutico',
       dose: '3 series × 6-8 repeticiones por lado',
       rest: '30 segundos',
-      svgKind: 'default',
+      image: 'assets/exercises-web/leg-raise.jpg',
+      svgKind: 'slump-human',
       targetMuscles: 'Transverso del abdomen, oblicuos internos/externos, flexores de cadera',
       phaseInicio: 'Acuéstate boca arriba. Eleva los brazos verticales hacia el techo y las rodillas dobladas a 90° (posición de mesa). La zona lumbar debe permanecer totalmente pegada al suelo durante todo el ejercicio sin despegarse un solo milímetro.',
       phaseEjecucion: 'Inhala hondo. Al exhalar de manera prolongada por la boca, extiende simultáneamente el brazo derecho hacia atrás por encima de la cabeza y la pierna izquierda hacia adelante en diagonal, bajándolos con control hacia el suelo.',
@@ -832,7 +924,7 @@
       level: 'Básico a Intermedio',
       dose: '3 series × 8 repeticiones por lado',
       rest: '30 segundos',
-      svgKind: 'default',
+      svgKind: 'superman-human',
       targetMuscles: 'Multífidos lumbares, glúteo mayor, deltoides posterior, core profundo',
       phaseInicio: 'En cuadrupedia sobre colchoneta, manos debajo de hombros y rodillas bajo caderas. Columna neutra como una mesa horizontal y abdomen activo.',
       phaseEjecucion: 'Al exhalar, extiende simultáneamente el brazo derecho hacia adelante a la altura de la oreja y la pierna izquierda hacia atrás a la altura de la cadera. Estírate en longitud, no hacia arriba.',
@@ -847,7 +939,8 @@
       level: 'Básico',
       dose: '2 series × 20 repeticiones rítmicas',
       rest: '15 segundos',
-      svgKind: 'squat',
+      image: 'assets/exercises-web/hip-mobility.jpg',
+      svgKind: 'squat-human',
       targetMuscles: 'Bomba muscular gemelar-sóleo, retorno venoso profundo y movilidad de tobillo',
       phaseInicio: 'Sentado cómodamente o acostado boca arriba con las piernas estiradas o ligeramente elevadas sobre un cojín.',
       phaseEjecucion: 'Flexiona con fuerza ambos tobillos llevando las puntas de los pies hacia las espinillas (dorsiflexión). Inmediatamente después, apunta con los dedos hacia adelante estirando los empeines (flexión plantar).',
@@ -866,7 +959,8 @@
       level: 'Básico',
       dose: '1-2 minutos continuos',
       rest: 'Sin pausa directa',
-      svgKind: 'default',
+      image: 'assets/exercises-web/walk-cycle.jpg',
+      svgKind: 'squat-human',
       targetMuscles: 'Activación cardiovascular global, flexores de cadera, gemelos y hombros',
       phaseInicio: 'De pie con postura alta, hombros abajo y mirada al frente. Pies separados al ancho de caderas.',
       phaseEjecucion: 'Comienza a marchar en el sitio levantando las rodillas de forma alterna a una altura cómoda (nivel medio de muslo). Acompaña el movimiento con un braceo fluido cruzado (brazo derecho adelante con rodilla izquierda).',
@@ -881,7 +975,7 @@
       level: 'Básico',
       dose: '40 segundos (20s adelante + 20s atrás)',
       rest: '15 segundos',
-      svgKind: 'armnerve',
+      svgKind: 'nerve-human',
       targetMuscles: 'Manguito rotador, deltoides anterior, medio y posterior, trapecio',
       phaseInicio: 'Párate con pies firmes al ancho de hombros. Extiende ambos brazos en cruz a los lados a la altura de los hombros con las palmas mirando hacia abajo.',
       phaseEjecucion: 'Dibuja círculos pequeños y controlados con las manos hacia adelante durante 10 segundos, aumentando gradualmente el diámetro a círculos medianos durante otros 10 segundos. Cambia de sentido girando hacia atrás.',
@@ -896,7 +990,7 @@
       level: 'Básico',
       dose: '10-12 repeticiones lentas',
       rest: '15 segundos',
-      svgKind: 'row',
+      svgKind: 'deadlift-human',
       targetMuscles: 'Activación de glúteos, isquiotibiales y erectores espinales',
       phaseInicio: 'De pie con pies paralelos al ancho de caderas. Manos cruzadas sobre el pecho o colocadas en las caderas. Rodillas desbloqueadas (microflexión fija).',
       phaseEjecucion: 'Empuja las caderas hacia atrás como si tocaras una pared imaginaria con los glúteos mientras inhalas. El torso se inclina hacia adelante manteniendo la columna neutra y recta como una tabla.',
@@ -915,7 +1009,7 @@
       level: 'Básico',
       dose: '30-40 segundos por pierna',
       rest: '10 segundos',
-      svgKind: 'lunge',
+      svgKind: 'lunge-human',
       targetMuscles: 'Cuádriceps femoral (recto anterior) y psoas ilíaco',
       phaseInicio: 'De pie junto a una pared o silla firme para mantener el equilibrio con una mano. Postura erguida y mirada al frente.',
       phaseEjecucion: 'Flexiona una rodilla llevando el talón hacia el glúteo y sujeta el empeine o tobillo con la mano del mismo lado. Junta ambas rodillas en paralelo y mantén la pelvis neutra con suave retroversión.',
@@ -930,7 +1024,8 @@
       level: 'Básico',
       dose: '30-40 segundos por pierna',
       rest: '10 segundos',
-      svgKind: 'default',
+      image: 'assets/exercises-web/hip-mobility.jpg',
+      svgKind: 'deadlift-human',
       targetMuscles: 'Isquiotibiales (bíceps femoral, semitendinoso, semimembranoso)',
       phaseInicio: 'Sentado en el borde de una silla, extiende una pierna hacia adelante con el talón apoyado en el suelo y los dedos apuntando al techo. La otra pierna doblada a 90° con pie firme.',
       phaseEjecucion: 'Con la espalda bien recta y el pecho alto, inclina el torso hacia adelante desde la articulación de la cadera (sin doblar la cintura ni encorvarte) hasta sentir un estiramiento agradable en la parte posterior del muslo extendido.',
@@ -945,7 +1040,8 @@
       level: 'Básico a Intermedio',
       dose: '30-40 segundos por pierna',
       rest: '15 segundos',
-      svgKind: 'default',
+      image: 'assets/exercises-web/glute-stretch.jpg',
+      svgKind: 'slump-human',
       targetMuscles: 'Glúteo medio, piramidal de la pelvis y rotadores profundos de cadera',
       phaseInicio: 'Acuéstate boca arriba sobre la colchoneta con ambas rodillas flexionadas y pies en el suelo. Cruza el tobillo derecho sobre el muslo/rodilla izquierda formando el número "4".',
       phaseEjecucion: 'Pasa las manos por detrás del muslo izquierdo y acércalo suavemente hacia tu pecho. La cabeza y los hombros deben descansar relajados sobre el suelo.',
@@ -960,7 +1056,8 @@
       level: 'Básico',
       dose: '3-4 transiciones lentas de 30s',
       rest: 'Sin pausa',
-      svgKind: 'default',
+      image: 'assets/exercises-web/cobra-child.jpg',
+      svgKind: 'superman-human',
       targetMuscles: 'Abdomen, psoas, fascia toracolumbar, dorsales y glúteos',
       phaseInicio: 'Acuéstate boca abajo sobre la colchoneta con las manos apoyadas debajo de los hombros.',
       phaseEjecucion: 'Fase 1 (Cobra suave): Inhala y empuja con las manos extendiendo los codos de forma parcial (esfinge o cobra baja) abriendo el pecho hacia el frente sin forzar las lumbares. Fase 2 (Niño/Mahometano): Al exhalar, empuja con las manos hacia atrás llevando los glúteos a descansar sobre los talones, con los brazos estirados al frente y la frente apoyada en el suelo.',
@@ -975,7 +1072,7 @@
       level: 'Básico',
       dose: '30 segundos por lado',
       rest: '10 segundos',
-      svgKind: 'default',
+      svgKind: 'nerve-human',
       targetMuscles: 'Pectoral mayor y menor, deltoides anterior y bíceps proximal',
       phaseInicio: 'De pie junto a una pared o marco de puerta. Apoya el antebrazo y la palma de la mano derecha planos contra la pared con el codo a la altura del hombro en 90°.',
       phaseEjecucion: 'Da un pequeño paso adelante con la pierna del mismo lado y gira suavemente el tronco hacia la izquierda (alejándote de la pared) hasta sentir el estiramiento en la parte anterior del pecho y hombro.',
@@ -990,7 +1087,8 @@
       level: 'Básico',
       dose: '30 segundos por lado',
       rest: '10 segundos',
-      svgKind: 'neck',
+      image: 'assets/exercises-web/neck-stretch-male-v2.jpg',
+      svgKind: 'neck-human',
       targetMuscles: 'Trapecio superior, elevador de la escápula y escalenos',
       phaseInicio: 'Sentado en silla con la espalda recta. Apoya la mano izquierda debajo del muslo izquierdo o del asiento para fijar el hombro hacia abajo.',
       phaseEjecucion: 'Inclina suavemente la oreja derecha hacia el hombro derecho. Coloca la mano derecha sobre la cabeza aplicando únicamente el peso del brazo (sin tirar con fuerza) para acentuar con suavidad el estiramiento.',
